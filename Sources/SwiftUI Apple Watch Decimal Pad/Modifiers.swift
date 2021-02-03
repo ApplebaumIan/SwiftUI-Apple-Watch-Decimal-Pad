@@ -46,6 +46,7 @@ struct TextViewStyle: ButtonStyle {
 				Spacer()
 				configuration.label
 					.font(/*@START_MENU_TOKEN@*/.body/*@END_MENU_TOKEN@*/)
+					.padding()
 				Spacer()
 			}
 			.background(
