@@ -42,20 +42,21 @@ public struct DigitPadStyle: ButtonStyle {
 @available(iOS 13.0, watchOS 6.0, *)
 struct TextViewStyle: ButtonStyle {
 	func makeBody(configuration: Configuration) -> some View {
-		GeometryReader { geometry in
 			HStack {
 				Spacer()
 				configuration.label
 				Spacer()
 			}
-			.background(ZStack{
+			.background(
+				GeometryReader { geometry in
+					ZStack{
 				RoundedRectangle(cornerRadius: 10, style: .continuous)
 					.fill(configuration.isPressed ? Color.gray.opacity(0.7): Color.gray.opacity(0.5))
-//					.frame(width: geometry.size.width,height:geometry.size.height)
+					.frame(width: geometry.size.width,height:geometry.size.height)
 					.padding()
+					}
 			})
 //				.frame(width: geometry.size.width)
 			
-		}
 	}
 }
