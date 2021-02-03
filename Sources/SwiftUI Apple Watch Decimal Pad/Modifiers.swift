@@ -43,9 +43,10 @@ public struct DigitPadStyle: ButtonStyle {
 struct TextViewStyle: ButtonStyle {
 	func makeBody(configuration: Configuration) -> some View {
 		configuration.label.background(ZStack{
-			Button(action: {}) {
-				Text("")
-			}
+			RoundedRectangle(cornerRadius: 10, style: .continuous)
+				.fill(configuration.isPressed ? Color.gray.opacity(0.7): Color.gray.opacity(0.5))
+				.frame(maxWidth: .infinity)
+				.padding()
 		})
 	}
 }
