@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+
+@available(iOS 13.0, watchOS 6.0, *)
 public struct DigitButtonModifier: ViewModifier {
 	public func body(content: Content) -> some View {
 		return content
@@ -14,12 +16,14 @@ public struct DigitButtonModifier: ViewModifier {
 			
 	}
 }
+
+@available(iOS 13.0, watchOS 6.0, *)
 public extension Button {
 	func digitKeyFrame() -> some View {
 		self.modifier(DigitButtonModifier())
 	}
 }
-
+@available(iOS 13.0, watchOS 6.0, *)
 public struct DigitPadStyle: ButtonStyle {
 	public func makeBody(configuration: Configuration) -> some View {
 		configuration.label

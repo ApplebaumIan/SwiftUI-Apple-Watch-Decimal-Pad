@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 13.0, watchOS 6.0, *)
 public struct DigiTextView: View {
 	@State public var text: String
 	@State public var presentingModal: Bool
@@ -14,7 +15,6 @@ public struct DigiTextView: View {
 		_text = State(initialValue: text)
 		_presentingModal = State(initialValue: presentingModal)
 	}
-	@available(iOS 13,*)
 	public var body: some View {
 		Button(action: {
 			presentingModal.toggle()
@@ -26,7 +26,7 @@ public struct DigiTextView: View {
 		})
 	}
 }
-
+@available(iOS 13.0, watchOS 6.0, *)
 public struct EnteredText: View {
 	@Binding var text:String
 	@Binding var presentedAsModal: Bool
@@ -35,7 +35,6 @@ public struct EnteredText: View {
 		_text = text
 		_presentedAsModal = presentedAsModal
 	}
-	@available(iOS 13,*)
 	public var body: some View{
 		VStack(alignment: .trailing) {
 			Spacer()
@@ -66,13 +65,13 @@ public struct EnteredText: View {
 		
 	}
 }
+@available(iOS 13.0, watchOS 6.0, *)
  public struct DigetPadView: View {
 	public var widthSpace: CGFloat = 4.0
 	@Binding var text:String
 	public init(text: Binding<String>){
 		_text = text
 	}
-	@available(iOS 13,*)
 	 public var body: some View {
 		VStack(spacing: 5) {
 			HStack(spacing: widthSpace){
@@ -181,14 +180,12 @@ public struct EnteredText: View {
 //}
 #if DEBUG
 struct EnteredText_Previews: PreviewProvider {
-	@available(iOS 13,*)
 	static var previews: some View {
 		EnteredText( text: .constant(""), presentedAsModal: .constant(true))
 	}
 }
 
 struct Content_View_Previews: PreviewProvider {
-	@available(iOS 13,*)
 	static var previews: some View{
 		DigiTextView(text: "", presentingModal: true)
 	}
