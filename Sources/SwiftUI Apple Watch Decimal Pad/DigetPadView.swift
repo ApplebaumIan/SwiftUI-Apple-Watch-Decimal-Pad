@@ -9,10 +9,10 @@ import SwiftUI
 
 @available(iOS 13.0, watchOS 6.0, *)
 public struct DigiTextView: View {
-	@State public var text: String
+	@Binding public var text: String
 	@State public var presentingModal: Bool
-	public init(text: String, presentingModal:Bool){
-		_text = State(initialValue: text)
+	public init(text: Binding<String>, presentingModal:Bool){
+		_text = text
 		_presentingModal = State(initialValue: presentingModal)
 	}
 	public var body: some View {
