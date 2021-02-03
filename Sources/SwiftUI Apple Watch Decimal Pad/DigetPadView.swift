@@ -8,14 +8,14 @@
 import SwiftUI
 
 public struct DigiTextView: View {
-	@State var text: String
-	@State var presentingModal: Bool
-	public init(){
-		self._text = State(initialValue: "PlaceHolder")
-		self._presentingModal = State(initialValue:false)
-		
+	@State public var text: String
+	@State public var presentingModal: Bool
+	public init(text: String, presentingModal:Bool){
+		_text = State(initialValue: text)
+		_presentingModal = State(initialValue: presentingModal)
 	}
-	public var body: some View{
+	@available(iOS 13,*)
+	public var body: some View {
 		Button(action: {
 			presentingModal.toggle()
 		}) {
@@ -26,11 +26,17 @@ public struct DigiTextView: View {
 		})
 	}
 }
-struct EnteredText: View {
+
+public struct EnteredText: View {
 	@Binding var text:String
 	@Binding var presentedAsModal: Bool
-	
-	var body: some View{
+	public init(text: Binding<String>, presentedAsModal:
+					Binding<Bool>){
+		_text = text
+		_presentedAsModal = presentedAsModal
+	}
+	@available(iOS 13,*)
+	public var body: some View{
 		VStack(alignment: .trailing) {
 			Spacer()
 			Spacer()
@@ -53,16 +59,21 @@ struct EnteredText: View {
 			.frame(width: 160, height: 15, alignment: .trailing)
 				
 			DigetPadView(text: $text)
+
 		}
 //		.edgesIgnoringSafeArea(.all
 //		)
 		
 	}
 }
- struct DigetPadView: View {
-	var widthSpace: CGFloat = 4.0
+ public struct DigetPadView: View {
+	public var widthSpace: CGFloat = 4.0
 	@Binding var text:String
-	 var body: some View {
+	public init(text: Binding<String>){
+		_text = text
+	}
+	@available(iOS 13,*)
+	 public var body: some View {
 		VStack(spacing: 5) {
 			HStack(spacing: widthSpace){
 				Button(action: {
@@ -170,14 +181,16 @@ struct EnteredText: View {
 //}
 #if DEBUG
 struct EnteredText_Previews: PreviewProvider {
+	@available(iOS 13,*)
 	static var previews: some View {
 		EnteredText( text: .constant(""), presentedAsModal: .constant(true))
 	}
 }
 
 struct Content_View_Previews: PreviewProvider {
+	@available(iOS 13,*)
 	static var previews: some View{
-		DigiTextView()
+		DigiTextView(text: "", presentingModal: true)
 	}
 }
 #endif

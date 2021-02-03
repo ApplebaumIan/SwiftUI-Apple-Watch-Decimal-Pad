@@ -7,21 +7,21 @@
 
 import Foundation
 import SwiftUI
-struct DigitButtonModifier: ViewModifier {
-	func body(content: Content) -> some View {
+public struct DigitButtonModifier: ViewModifier {
+	public func body(content: Content) -> some View {
 		return content
 			.buttonStyle(DigitPadStyle())
 			
 	}
 }
-extension Button {
+public extension Button {
 	func digitKeyFrame() -> some View {
 		self.modifier(DigitButtonModifier())
 	}
 }
 
-struct DigitPadStyle: ButtonStyle {
-	func makeBody(configuration: Configuration) -> some View {
+public struct DigitPadStyle: ButtonStyle {
+	public func makeBody(configuration: Configuration) -> some View {
 		configuration.label
 			.padding(1)
 			.background(
