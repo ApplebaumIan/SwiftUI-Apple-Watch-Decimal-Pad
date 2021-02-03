@@ -8,9 +8,11 @@
 import SwiftUI
 
 public struct DigiTextView: View {
-	@State public var text: String = "PlaceHolder"
-	@State public var presentingModal = false
+	@State var text: String
+	@State var presentingModal: Bool
 	public init(){
+		self._text = State(initialValue: "PlaceHolder")
+		self._presentingModal = State(initialValue:false)
 		
 	}
 	public var body: some View{
