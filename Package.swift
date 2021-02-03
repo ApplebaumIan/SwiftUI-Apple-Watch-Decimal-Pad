@@ -22,5 +22,7 @@ let package = Package(
         .target(
             name: "SwiftUI Apple Watch Decimal Pad",
             dependencies: []),
-    ]
+    ],
+	swiftLanguageVersions: [.v5]
+
 )
