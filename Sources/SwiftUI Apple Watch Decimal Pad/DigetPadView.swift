@@ -8,8 +8,8 @@
 import SwiftUI
 
 public struct DigiTextView: View {
-	@State var text: String = "PlaceHolder"
-	@State var presentingModal = false
+	@State public var text: String = "PlaceHolder"
+	@State public var presentingModal = false
 	public init(){
 		
 	}
@@ -24,11 +24,11 @@ public struct DigiTextView: View {
 		})
 	}
 }
-public struct EnteredText: View {
+struct EnteredText: View {
 	@Binding var text:String
 	@Binding var presentedAsModal: Bool
 	
-	public var body: some View{
+	var body: some View{
 		VStack(alignment: .trailing) {
 			Spacer()
 			Spacer()
@@ -57,10 +57,10 @@ public struct EnteredText: View {
 		
 	}
 }
-public struct DigetPadView: View {
+ struct DigetPadView: View {
 	var widthSpace: CGFloat = 4.0
 	@Binding var text:String
-	public var body: some View {
+	 var body: some View {
 		VStack(spacing: 5) {
 			HStack(spacing: widthSpace){
 				Button(action: {
