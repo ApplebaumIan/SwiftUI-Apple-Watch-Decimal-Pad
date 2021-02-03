@@ -11,16 +11,20 @@ import SwiftUI
 public struct DigiTextView: View {
 	@Binding public var text: String
 	@State public var presentingModal: Bool
-	public init(text: Binding<String>, presentingModal:Bool){
+	
+	var align: TextViewAlignment
+	public init(text: Binding<String>, presentingModal:Bool, alignment: TextViewAlignment = .center){
 		_text = text
 		_presentingModal = State(initialValue: presentingModal)
+		self.align = alignment
 	}
+	
 	public var body: some View {
 		Button(action: {
 			presentingModal.toggle()
 		}) {
 			Text(text)
-		}.buttonStyle(TextViewStyle())
+		}.buttonStyle(TextViewStyle(alignment: align))
 		.sheet(isPresented: $presentingModal, content: {
 			EnteredText(text: $text, presentedAsModal: $presentingModal)
 		})

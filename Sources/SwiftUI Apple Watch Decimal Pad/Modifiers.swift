@@ -56,19 +56,20 @@ public struct DigitPadStyle: ButtonStyle {
 	}
 }
 
+public enum TextViewAlignment {
+	case trailing
+	case leading
+	case center
+}
+
 @available(iOS 13.0, watchOS 6.0, *)
 struct TextViewStyle: ButtonStyle {
-	init(alignment: alignment = .center) {
+	init(alignment: TextViewAlignment = .center) {
 		self.align = alignment
 	}
 	
 	
-	enum alignment {
-		case trailing
-		case leading
-		case center
-	}
-	var align: alignment
+	var align: TextViewAlignment
 	func makeBody(configuration: Configuration) -> some View {
 			HStack {
 				if align == .center || align == .trailing{
