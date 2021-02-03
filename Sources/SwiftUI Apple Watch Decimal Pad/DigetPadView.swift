@@ -187,7 +187,7 @@ struct EnteredText_Previews: PreviewProvider {
 
 struct Content_View_Previews: PreviewProvider {
 	static var previews: some View{
-		DigiTextView(text: "", presentingModal: true)
+		DigiTextView(text: .constant("boop"), presentingModal: true)
 	}
 }
 #endif
