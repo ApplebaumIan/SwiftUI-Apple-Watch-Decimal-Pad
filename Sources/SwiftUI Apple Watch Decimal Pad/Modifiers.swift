@@ -18,6 +18,19 @@ public struct DigitButtonModifier: ViewModifier {
 }
 
 @available(iOS 13.0, watchOS 6.0, *)
+public struct TextTrailingAlignmentModifier: ViewModifier{
+	public func body(content: Content) -> some View {
+		return content.frame(alignment: .trailing)
+	}
+}
+
+public extension DigiTextView{
+	func alignTextTrailing() -> some View {
+		self.modifier(TextTrailingAlignmentModifier())
+	}
+}
+
+@available(iOS 13.0, watchOS 6.0, *)
 public extension Button {
 	func digitKeyFrame() -> some View {
 		self.modifier(DigitButtonModifier())
