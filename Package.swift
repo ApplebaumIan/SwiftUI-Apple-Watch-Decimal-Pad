@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "SwiftUI Apple Watch Decimal Pad",
+	platforms: [.watchOS(.v7),.iOS(.v14)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -21,8 +22,5 @@ let package = Package(
         .target(
             name: "SwiftUI Apple Watch Decimal Pad",
             dependencies: []),
-        .testTarget(
-            name: "SwiftUI Apple Watch Decimal PadTests",
-            dependencies: ["SwiftUI Apple Watch Decimal Pad"]),
     ]
 )
