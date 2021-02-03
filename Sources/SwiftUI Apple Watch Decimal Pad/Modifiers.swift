@@ -20,11 +20,11 @@ public struct DigitButtonModifier: ViewModifier {
 //@available(iOS 13.0, watchOS 6.0, *)
 //public struct TextTrailingAlignmentModifier: ViewModifier{
 //	public typealias Body = DigiTextView
-//	
+//
 //	public func body(content: Content) -> DigiTextView {
 //		return content.setAlign
 //	}
-//	
+//
 //
 //}
 //
@@ -58,12 +58,17 @@ public struct DigitPadStyle: ButtonStyle {
 
 @available(iOS 13.0, watchOS 6.0, *)
 struct TextViewStyle: ButtonStyle {
+	init(alignment: alignment = .center) {
+		self.align = alignment
+	}
+	
+	
 	enum alignment {
 		case trailing
 		case leading
 		case center
 	}
-	var align: alignment = .center
+	var align: alignment
 	func makeBody(configuration: Configuration) -> some View {
 			HStack {
 				if align == .center || align == .trailing{
@@ -89,13 +94,5 @@ struct TextViewStyle: ButtonStyle {
 //				.frame(width: geometry.size.width)
 			
 	}
-	public mutating func setAlignmentLeading(){
-		self.align = .leading
-	}
-	public mutating func setAlignmentTrailing(){
-		self.align = .trailing
-	}
-	public mutating func setAlignmentCenter(){
-		self.align = .center
-	}
+	
 }
