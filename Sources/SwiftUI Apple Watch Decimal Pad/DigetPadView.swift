@@ -24,6 +24,7 @@ public struct DigiTextView: View {
 			presentingModal.toggle()
 		}) {
 			Text(text)
+				.lineLimit(1)
 		}.buttonStyle(TextViewStyle(alignment: align))
 		.sheet(isPresented: $presentingModal, content: {
 			EnteredText(text: $text, presentedAsModal: $presentingModal)
