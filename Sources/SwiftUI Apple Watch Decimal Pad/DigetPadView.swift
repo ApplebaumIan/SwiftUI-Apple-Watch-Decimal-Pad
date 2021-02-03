@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct DigiTextView: View {
+public struct DigiTextView: View {
 	@State var text: String = "PlaceHolder"
 	@State var presentingModal = false
-	var body: some View{
+	public var body: some View{
 		Button(action: {
 			presentingModal.toggle()
 		}) {
@@ -21,11 +21,11 @@ struct DigiTextView: View {
 		})
 	}
 }
-struct EnteredText: View {
+public struct EnteredText: View {
 	@Binding var text:String
 	@Binding var presentedAsModal: Bool
 	
-	var body: some View{
+	public var body: some View{
 		VStack(alignment: .trailing) {
 			Spacer()
 			Spacer()
@@ -54,10 +54,10 @@ struct EnteredText: View {
 		
 	}
 }
-struct DigetPadView: View {
+public struct DigetPadView: View {
 	var widthSpace: CGFloat = 4.0
 	@Binding var text:String
-	var body: some View {
+	public var body: some View {
 		VStack(spacing: 5) {
 			HStack(spacing: widthSpace){
 				Button(action: {
@@ -163,7 +163,7 @@ struct DigetPadView: View {
 ////		DigetPadView( text: "b")
 //	}
 //}
-
+#if DEBUG
 struct EnteredText_Previews: PreviewProvider {
 	static var previews: some View {
 		EnteredText( text: .constant(""), presentedAsModal: .constant(true))
@@ -175,3 +175,4 @@ struct Content_View_Previews: PreviewProvider {
 		DigiTextView()
 	}
 }
+#endif
