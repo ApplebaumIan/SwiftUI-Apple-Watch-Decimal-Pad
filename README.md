@@ -9,9 +9,9 @@ WatchOS also has a weird issue with Swift Packages where you have to manually ad
 
 
 `File > Swift Packages > add Package Dependecy...`
-paste [https://github.com/ApplebaumIan/SwiftUI-Apple-Watch-Decimal-Pad.git](https://github.com/ApplebaumIan/SwiftUI-Apple-Watch-Decimal-Pad.git) into the search bar. Once installed navigate to your Xcode Project and select the `General` tab. Select your watchOS Extension target and scroll to `Frameworks, Libraries, and Embedded Content` click the `+` button and add    `SwiftUI Apple Watch Decimal Pad` framework. 
+paste [https://github.com/ApplebaumIan/SwiftUI-Apple-Watch-Decimal-Pad.git](https://github.com/ApplebaumIan/SwiftUI-Apple-Watch-Decimal-Pad.git) into the search bar. Once installed navigate to your Xcode Project and select the `General` tab. Select your watchOS Extension target and scroll to `Frameworks, Libraries, and Embedded Content` click the `+` button and add `SwiftUI Apple Watch Decimal Pad` framework. 
 
-You should now be able to add `import SwiftUI_Apple_Watch_Decimal_Pad` to the top of your desired Swift file. 
+You should now be able to add `import SwiftUI_Apple_Watch_Decimal_Pad` to the top of your desired Swift file.
 
 ## Usage
 ```swift
