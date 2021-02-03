@@ -38,3 +38,14 @@ public struct DigitPadStyle: ButtonStyle {
 			.frame(width: 50.0, height: 30.0)
 	}
 }
+
+@available(iOS 13.0, watchOS 6.0, *)
+struct TextViewStyle: ButtonStyle {
+	func makeBody(configuration: Configuration) -> some View {
+		configuration.label.background(ZStack{
+			Button(action: {}) {
+				Text("")
+			}
+		})
+	}
+}

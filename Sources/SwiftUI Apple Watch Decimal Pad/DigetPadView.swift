@@ -20,7 +20,7 @@ public struct DigiTextView: View {
 			presentingModal.toggle()
 		}) {
 			Text(text)
-		}.buttonStyle(PlainButtonStyle())
+		}.buttonStyle(TextViewStyle())
 		.sheet(isPresented: $presentingModal, content: {
 			EnteredText(text: $text, presentedAsModal: $presentingModal)
 		})
