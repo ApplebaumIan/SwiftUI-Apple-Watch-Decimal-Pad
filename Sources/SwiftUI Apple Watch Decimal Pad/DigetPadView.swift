@@ -10,6 +10,9 @@ import SwiftUI
 public struct DigiTextView: View {
 	@State var text: String = "PlaceHolder"
 	@State var presentingModal = false
+	public init(){
+		
+	}
 	public var body: some View{
 		Button(action: {
 			presentingModal.toggle()
