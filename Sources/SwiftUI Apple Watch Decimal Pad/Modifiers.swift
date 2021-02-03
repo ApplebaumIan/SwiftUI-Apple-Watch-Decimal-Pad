@@ -45,17 +45,19 @@ struct TextViewStyle: ButtonStyle {
 			HStack {
 				Spacer()
 				configuration.label
+					.font(/*@START_MENU_TOKEN@*/.body/*@END_MENU_TOKEN@*/)
 				Spacer()
 			}
 			.background(
 				GeometryReader { geometry in
 					ZStack{
-				RoundedRectangle(cornerRadius: 10, style: .continuous)
+				RoundedRectangle(cornerRadius: 5, style: .continuous)
 					.fill(configuration.isPressed ? Color.gray.opacity(0.7): Color.gray.opacity(0.5))
 					.frame(width: geometry.size.width, height:geometry.size.height)
 					}
 			})
 			.padding()
+			.padding(.vertical, 10.0)
 //				.frame(width: geometry.size.width)
 			
 	}
