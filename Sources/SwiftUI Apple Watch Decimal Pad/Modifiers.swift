@@ -17,18 +17,22 @@ public struct DigitButtonModifier: ViewModifier {
 	}
 }
 
-@available(iOS 13.0, watchOS 6.0, *)
-public struct TextTrailingAlignmentModifier: ViewModifier{
-	public func body(content: Content) -> some View {
-		return content.frame(alignment: .trailing)
-	}
-}
-
-public extension DigiTextView{
-	func alignTextTrailing() -> some View {
-		self.modifier(TextTrailingAlignmentModifier())
-	}
-}
+//@available(iOS 13.0, watchOS 6.0, *)
+//public struct TextTrailingAlignmentModifier: ViewModifier{
+//	public typealias Body = DigiTextView
+//	
+//	public func body(content: Content) -> DigiTextView {
+//		return content.setAlign
+//	}
+//	
+//
+//}
+//
+//public extension DigiTextView{
+//	func alignTextTrailing() -> some View {
+//		self.modifier(TextTrailingAlignmentModifier())
+//	}
+//}
 
 @available(iOS 13.0, watchOS 6.0, *)
 public extension Button {
@@ -54,13 +58,23 @@ public struct DigitPadStyle: ButtonStyle {
 
 @available(iOS 13.0, watchOS 6.0, *)
 struct TextViewStyle: ButtonStyle {
+	enum alignment {
+		case trailing
+		case leading
+		case center
+	}
+	var align: alignment = .center
 	func makeBody(configuration: Configuration) -> some View {
 			HStack {
+				if align == .center || align == .trailing{
 				Spacer()
+				}
 				configuration.label
 					.font(/*@START_MENU_TOKEN@*/.body/*@END_MENU_TOKEN@*/)
 					.padding()
+				if align == .center || align == .leading{
 				Spacer()
+				}
 			}
 			.background(
 				GeometryReader { geometry in
@@ -74,5 +88,14 @@ struct TextViewStyle: ButtonStyle {
 			.padding(.vertical, 10.0)
 //				.frame(width: geometry.size.width)
 			
+	}
+	public mutating func setAlignmentLeading(){
+		self.align = .leading
+	}
+	public mutating func setAlignmentTrailing(){
+		self.align = .trailing
+	}
+	public mutating func setAlignmentCenter(){
+		self.align = .center
 	}
 }
