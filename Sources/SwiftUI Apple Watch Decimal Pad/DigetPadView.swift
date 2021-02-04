@@ -10,11 +10,11 @@ import SwiftUI
 @available(iOS 13.0, watchOS 6.0, *)
 public struct DigiTextView: View {
 	var placeholder: String
-	@Binding public var text: String?
+	@Binding public var text: String
 	@State public var presentingModal: Bool
 	
 	var align: TextViewAlignment
-	public init( placeholder: String, text: Binding<String?>, presentingModal:Bool, alignment: TextViewAlignment = .center){
+	public init( placeholder: String, text: Binding<String>, presentingModal:Bool, alignment: TextViewAlignment = .center){
 		_text = text
 		_presentingModal = State(initialValue: presentingModal)
 		self.align = alignment
@@ -25,8 +25,8 @@ public struct DigiTextView: View {
 		Button(action: {
 			presentingModal.toggle()
 		}) {
-			if text != nil{
-			Text(text!)
+			if text != ""{
+			Text(text)
 				.lineLimit(1)
 			}
 			else{
@@ -42,9 +42,9 @@ public struct DigiTextView: View {
 }
 @available(iOS 13.0, watchOS 6.0, *)
 public struct EnteredText: View {
-	@Binding var text:String?
+	@Binding var text:String
 	@Binding var presentedAsModal: Bool
-	public init(text: Binding<String?>, presentedAsModal:
+	public init(text: Binding<String>, presentedAsModal:
 					Binding<Bool>){
 		_text = text
 		_presentedAsModal = presentedAsModal
@@ -64,7 +64,7 @@ public struct EnteredText: View {
 			Button(action:{
 				presentedAsModal.toggle()
 			}){
-				Text(text ?? "")
+				Text(text)
 			}
 			.buttonStyle(PlainButtonStyle())
 			.multilineTextAlignment(.trailing)
@@ -82,46 +82,46 @@ public struct EnteredText: View {
 @available(iOS 13.0, watchOS 6.0, *)
  public struct DigetPadView: View {
 	public var widthSpace: CGFloat = 4.0
-	@Binding var text:String?
-	public init(text: Binding<String?>){
+	@Binding var text:String
+	public init(text: Binding<String>){
 		_text = text
 	}
 	 public var body: some View {
 		VStack(spacing: 5) {
 			HStack(spacing: widthSpace){
 				Button(action: {
-					text?.append("1")
+					text.append("1")
 				}) {
 					Text("1")
 						.padding(0)
 				}
 				.digitKeyFrame()
 				Button(action: {
-					text?.append("2")
+					text.append("2")
 				}) {
 					Text("2")
 				}.digitKeyFrame()
 				
 				Button(action: {
-					text?.append("3")
+					text.append("3")
 				}) {
 							Text("3")
 						}.digitKeyFrame()
 			}
 			HStack(spacing:widthSpace){
 				Button(action: {
-					text?.append("4")
+					text.append("4")
 				}) {
 					Text("4")
 				}.digitKeyFrame()
 				Button(action: {
-					text?.append("5")
+					text.append("5")
 				}) {
 					Text("5")
 				}.digitKeyFrame()
 				
 				Button(action: {
-					text?.append("6")
+					text.append("6")
 				}) {
 					Text("6")
 				}.digitKeyFrame()
@@ -129,18 +129,18 @@ public struct EnteredText: View {
 			
 			HStack(spacing:widthSpace){
 				Button(action: {
-					text?.append("7")
+					text.append("7")
 				}) {
 					Text("7")
 				}.digitKeyFrame()
 				Button(action: {
-					text?.append("8")
+					text.append("8")
 				}) {
 					Text("8")
 				}.digitKeyFrame()
 				
 				Button(action: {
-					text?.append("9")
+					text.append("9")
 				}) {
 					Text("9")
 				}
@@ -148,11 +148,11 @@ public struct EnteredText: View {
 			}
 			HStack(spacing:widthSpace) {
 				Button(action: {
-					if !(text?.contains("."))!{
+					if !(text.contains(".")){
 						if text == ""{
-							text?.append("0.")
+							text.append("0.")
 						}else{
-							text?.append(".")
+							text.append(".")
 						}
 					}
 				}) {
@@ -160,15 +160,15 @@ public struct EnteredText: View {
 				}
 				.digitKeyFrame()
 				Button(action: {
-					text?.append("0")
+					text.append("0")
 				}) {
 					Text("0")
 				}
 				.digitKeyFrame()
 				
 				Button(action: {
-					if let last = text?.indices.last{
-						text?.remove(at: last)
+					if let last = text.indices.last{
+						text.remove(at: last)
 					}
 				}) {
 					Image(systemName: "delete.left")
