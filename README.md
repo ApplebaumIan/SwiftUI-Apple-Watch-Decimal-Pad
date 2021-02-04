@@ -20,8 +20,19 @@ import SwiftUI_Apple_Watch_Decimal_Pad
 struct ContentView: View {
 	@State public var presentingModal: Bool
 	var body: some View {
-		DigiTextView(text: "Placeholer", presentingModal: presentingModal )
+		DigiTextView(placeholder: placeholder, 
+			text: text,
+			presentingModal: presentingModal
+			)
 	}
 }
 ```
 
+If you would like to set the alignment of the text withing the Textfield:
+```diff
+DigiTextView(placeholder: placeholder,
+	text: text, 
+	presentingModal: presentKeyboard,
++	alignment: .leading
+	)
+```
