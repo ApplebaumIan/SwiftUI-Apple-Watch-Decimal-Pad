@@ -90,9 +90,6 @@ struct TextViewStyle: ButtonStyle {
 					.frame(width: geometry.size.width, height:geometry.size.height)
 					}
 			})
-			.padding()
-			.padding(.vertical, 10.0)
-//				.frame(width: geometry.size.width)
 			
 	}
 	

@@ -37,7 +37,7 @@ public struct DigiTextView: View {
 		}.buttonStyle(TextViewStyle(alignment: align))
 		.sheet(isPresented: $presentingModal, content: {
 			EnteredText(text: $text, presentedAsModal: $presentingModal)
-		})
+		})		
 	}
 }
 @available(iOS 13.0, watchOS 6.0, *)
@@ -201,7 +201,11 @@ struct EnteredText_Previews: PreviewProvider {
 
 struct Content_View_Previews: PreviewProvider {
 	static var previews: some View{
-		DigiTextView(placeholder: "boop placeholder", text: .constant(""), presentingModal: true)
+		VStack {
+			ForEach(/*@START_MENU_TOKEN@*/0 ..< 5/*@END_MENU_TOKEN@*/) { item in
+				DigiTextView(placeholder: "boop placeholder", text: .constant(""), presentingModal: true)
+			}
+		}
 	}
 }
 #endif
