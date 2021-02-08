@@ -62,35 +62,3 @@ public enum TextViewAlignment {
 	case center
 }
 
-@available(iOS 13.0, watchOS 6.0, *)
-struct TextViewStyle: ButtonStyle {
-	init(alignment: TextViewAlignment = .center) {
-		self.align = alignment
-	}
-	
-	
-	var align: TextViewAlignment
-	func makeBody(configuration: Configuration) -> some View {
-			HStack {
-				if align == .center || align == .trailing{
-				Spacer()
-				}
-				configuration.label
-					.font(/*@START_MENU_TOKEN@*/.body/*@END_MENU_TOKEN@*/)
-					.padding()
-				if align == .center || align == .leading{
-				Spacer()
-				}
-			}
-			.background(
-				GeometryReader { geometry in
-					ZStack{
-				RoundedRectangle(cornerRadius: 5, style: .continuous)
-					.fill(configuration.isPressed ? Color.gray.opacity(0.7): Color.gray.opacity(0.5))
-					.frame(width: geometry.size.width, height:geometry.size.height)
-					}
-			})
-			
-	}
-	
-}

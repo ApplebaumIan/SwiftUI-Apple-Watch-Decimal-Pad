@@ -32,7 +32,7 @@ public struct DigiTextView: View {
 			else{
 				Text(placeholder)
 					.lineLimit(1)
-					.opacity(0.8)
+					.opacity(0.5)
 			}
 		}.buttonStyle(TextViewStyle(alignment: align))
 		.sheet(isPresented: $presentingModal, content: {
@@ -201,11 +201,67 @@ struct EnteredText_Previews: PreviewProvider {
 
 struct Content_View_Previews: PreviewProvider {
 	static var previews: some View{
-		VStack {
-			ForEach(/*@START_MENU_TOKEN@*/0 ..< 5/*@END_MENU_TOKEN@*/) { item in
-				DigiTextView(placeholder: "boop placeholder", text: .constant(""), presentingModal: true)
+		ScrollView {
+			ForEach(0 ..< 4) { item in
+				DigiTextView(placeholder: "Placeholder", text: .constant(""), presentingModal: false, alignment: .leading)
+			}
+			Button(action: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/{}/*@END_MENU_TOKEN@*/) {
+				/*@START_MENU_TOKEN@*//*@PLACEHOLDER=Content@*/Text("Button")/*@END_MENU_TOKEN@*/
+			}
+		}
+	}
+}
+
+struct TextField_Previews: PreviewProvider {
+	static var previews: some View{
+		ScrollView{
+			ForEach(0 ..< 4){ item in
+				TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+			}
+			Button(action: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/{}/*@END_MENU_TOKEN@*/) {
+				/*@START_MENU_TOKEN@*//*@PLACEHOLDER=Content@*/Text("Button")/*@END_MENU_TOKEN@*/
 			}
 		}
 	}
 }
 #endif
+@available(iOS 13.0, watchOS 6.0, *)
+struct TextViewStyle: ButtonStyle {
+	init(alignment: TextViewAlignment = .center) {
+		self.align = alignment
+	}
+	
+	
+	var align: TextViewAlignment
+	func makeBody(configuration: Configuration) -> some View {
+			HStack {
+				if align == .center || align == .trailing{
+				Spacer()
+				}
+				configuration.label
+					.font(/*@START_MENU_TOKEN@*/.body/*@END_MENU_TOKEN@*/)
+					.padding(.vertical, 11.0)
+					.padding(.horizontal)
+				if align == .center || align == .leading{
+				Spacer()
+				}
+			}
+			.background(
+				GeometryReader { geometry in
+					ZStack{
+				RoundedRectangle(cornerRadius: 7, style: .continuous)
+					.fill(configuration.isPressed ? Color.gray.opacity(0.1): Color.gray.opacity(0.2))
+					.frame(width:
+							configuration.isPressed ?
+						geometry.size.width - 2 : geometry.size.width
+						,
+						   height:
+							configuration.isPressed ?
+						geometry.size.height - 2 : geometry.size.height
+					)
+					}
+			})
+			
+	}
+	
+}
