@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-
+import AVFoundation
 @available(iOS 13.0, watchOS 6.0, *)
 public struct DigitButtonModifier: ViewModifier {
 	public func body(content: Content) -> some View {
@@ -53,6 +53,14 @@ public struct DigitPadStyle: ButtonStyle {
 				}
 			)
 			.frame(width: 50.0, height: 30.0)
+			.onChange(of: configuration.isPressed, perform: { value in
+				if configuration.isPressed{
+					DispatchQueue.main.async {
+						WKInterfaceDevice.current().play(.click)
+						
+					}
+				}
+			})
 	}
 }
 
