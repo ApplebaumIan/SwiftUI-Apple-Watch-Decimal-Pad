@@ -7,7 +7,9 @@
 
 import Foundation
 import SwiftUI
+#if os(watchOS)
 import WatchKit
+#endif
 @available(iOS 13.0, watchOS 6.0, *)
 public struct DigitButtonModifier: ViewModifier {
 	public func body(content: Content) -> some View {
