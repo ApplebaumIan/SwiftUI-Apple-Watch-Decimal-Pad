@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-import AVFoundation
+import WatchKit
 @available(iOS 13.0, watchOS 6.0, *)
 public struct DigitButtonModifier: ViewModifier {
 	public func body(content: Content) -> some View {
