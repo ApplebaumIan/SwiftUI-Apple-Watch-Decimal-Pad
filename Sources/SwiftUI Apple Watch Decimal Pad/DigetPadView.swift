@@ -26,8 +26,7 @@ public struct DigiTextView: View {
 			presentingModal.toggle()
 		}) {
 			if text != ""{
-			Text(placeholder+": "+text)
-				.lineLimit(1)
+			Text(text+"\n"+placeholder)
 			}
 			else{
 				Text(placeholder)
