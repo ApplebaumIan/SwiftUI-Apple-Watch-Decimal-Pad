@@ -58,8 +58,7 @@ public struct DigitPadStyle: ButtonStyle {
 			.onChange(of: configuration.isPressed, perform: { value in
 				if configuration.isPressed{
 					DispatchQueue.main.async {
-//						WKInterfaceDevice().play(.click)
-						
+//                        WKInterfaceDevice().play(.click)
 					}
 				}
 			})
