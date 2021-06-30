@@ -53,13 +53,6 @@ public struct EnteredText: View {
 		VStack(alignment: .trailing) {
 			Spacer()
 			Spacer()
-//			Button(action: {
-//				presentedAsModal.toggle()
-//			}) {
-//				Text("Enter")
-//			}
-//			.buttonStyle(PlainButtonStyle())
-//			.foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
 			
 			Button(action:{
 				presentedAsModal.toggle()
@@ -78,15 +71,8 @@ public struct EnteredText: View {
 //		)
         .toolbar(content: {
             ToolbarItem(placement: .cancellationAction){
-                Button("Cancel"){
+                Button("Done"){
                     presentedAsModal.toggle()
-                }
-            }
-            ToolbarItem(placement: .confirmationAction){
-                Button(action: {
-                    presentedAsModal.toggle()
-                }) {
-                    Text("Enter")
                 }
             }
         })
