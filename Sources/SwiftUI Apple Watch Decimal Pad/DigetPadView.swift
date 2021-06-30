@@ -53,13 +53,13 @@ public struct EnteredText: View {
 		VStack(alignment: .trailing) {
 			Spacer()
 			Spacer()
-			Button(action: {
-				presentedAsModal.toggle()
-			}) {
-				Text("Enter")
-			}
-			.buttonStyle(PlainButtonStyle())
-			.foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+//			Button(action: {
+//				presentedAsModal.toggle()
+//			}) {
+//				Text("Enter")
+//			}
+//			.buttonStyle(PlainButtonStyle())
+//			.foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
 			
 			Button(action:{
 				presentedAsModal.toggle()
@@ -76,7 +76,20 @@ public struct EnteredText: View {
 		}
 //		.edgesIgnoringSafeArea(.all
 //		)
-		
+        .toolbar(content: {
+            ToolbarItem(placement: .cancellationAction){
+                Button("Cancel"){
+                    presentedAsModal.toggle()
+                }
+            }
+            ToolbarItem(placement: .confirmationAction){
+                Button(action: {
+                    presentedAsModal.toggle()
+                }) {
+                    Text("Enter")
+                }
+            }
+        })
 	}
 }
 @available(iOS 13.0, watchOS 6.0, *)
