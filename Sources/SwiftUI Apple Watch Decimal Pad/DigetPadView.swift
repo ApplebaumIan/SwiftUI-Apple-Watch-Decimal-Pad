@@ -239,14 +239,6 @@ struct TextViewStyle: ButtonStyle {
 					ZStack{
 				RoundedRectangle(cornerRadius: 7, style: .continuous)
 					.fill(configuration.isPressed ? Color.gray.opacity(0.1): Color.gray.opacity(0.2))
-					.frame(width:
-							configuration.isPressed ?
-						geometry.size.width - 2 : geometry.size.width
-						,
-						   height:
-							configuration.isPressed ?
-						geometry.size.height - 2 : geometry.size.height
-					)
 					}
 			})
 			
