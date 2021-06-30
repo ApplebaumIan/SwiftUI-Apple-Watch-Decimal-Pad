@@ -26,7 +26,10 @@ public struct DigiTextView: View {
 			presentingModal.toggle()
 		}) {
 			if text != ""{
-			Text(text+"\n"+placeholder)
+                VStack(alignment: .leading){
+                    Text(text)
+                    Text(placeholder)
+                }
 			}
 			else{
 				Text(placeholder)
