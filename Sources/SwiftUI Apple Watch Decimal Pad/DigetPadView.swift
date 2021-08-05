@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 13.0, watchOS 6.0, *)
+@available(watchOS 6.0, *)
 public struct DigiTextView: View {
 	var placeholder: String
 	@Binding public var text: String
@@ -39,7 +39,7 @@ public struct DigiTextView: View {
 		})		
 	}
 }
-@available(iOS 13.0, watchOS 6.0, *)
+@available(watchOS 6.0, *)
 public struct EnteredText: View {
 	@Binding var text:String
 	@Binding var presentedAsModal: Bool
