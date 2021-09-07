@@ -145,7 +145,18 @@ public struct EnteredText: View {
 				.digitKeyFrame()
 			}
 			HStack(spacing:widthSpace) {
-				Spacer()
+				Button(action: {
+					if !(text.contains(".")){
+						if text == ""{
+							text.append("0.")
+						}else{
+							text.append(".")
+						}
+					}
+				}) {
+					Text("•")
+				}
+				.digitKeyFrame()
 				Button(action: {
 					text.append("0")
 				}) {
