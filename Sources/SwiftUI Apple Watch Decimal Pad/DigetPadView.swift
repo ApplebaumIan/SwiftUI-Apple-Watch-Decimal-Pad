@@ -9,16 +9,18 @@ import SwiftUI
 
 @available(watchOS 6.0, *)
 public struct DigiTextView: View {
+    var style: KeyboardStyle
 	var placeholder: String
 	@Binding public var text: String
 	@State public var presentingModal: Bool
 	
 	var align: TextViewAlignment
-	public init( placeholder: String, text: Binding<String>, presentingModal:Bool, alignment: TextViewAlignment = .center){
+    public init( placeholder: String, text: Binding<String>, presentingModal:Bool, alignment: TextViewAlignment = .center,style: KeyboardStyle = .decimil){
 		_text = text
 		_presentingModal = State(initialValue: presentingModal)
 		self.align = alignment
 		self.placeholder = placeholder
+        self.style = style
 	}
 	
 	public var body: some View {
@@ -35,7 +37,7 @@ public struct DigiTextView: View {
 			}
 		}.buttonStyle(TextViewStyle(alignment: align))
 		.sheet(isPresented: $presentingModal, content: {
-			EnteredText(text: $text, presentedAsModal: $presentingModal)
+            EnteredText(text: $text, presentedAsModal: $presentingModal, style: self.style)
 		})		
 	}
 }
@@ -43,10 +45,12 @@ public struct DigiTextView: View {
 public struct EnteredText: View {
 	@Binding var text:String
 	@Binding var presentedAsModal: Bool
+    var style: KeyboardStyle
 	public init(text: Binding<String>, presentedAsModal:
-					Binding<Bool>){
+                    Binding<Bool>, style: KeyboardStyle = .decimil){
 		_text = text
 		_presentedAsModal = presentedAsModal
+        self.style = style
 	}
 	public var body: some View{
 		VStack(alignment: .trailing) {
@@ -63,7 +67,7 @@ public struct EnteredText: View {
 			.lineLimit(1)
 			.frame(width: 160, height: 15, alignment: .trailing)
 				
-			DigetPadView(text: $text)
+            DigetPadView(text: $text, style: .decimil)
 
 		}
 //		.edgesIgnoringSafeArea(.all
@@ -81,8 +85,10 @@ public struct EnteredText: View {
  public struct DigetPadView: View {
 	public var widthSpace: CGFloat = 4.0
 	@Binding var text:String
-	public init(text: Binding<String>){
+    var style: KeyboardStyle
+    public init(text: Binding<String>, style: KeyboardStyle){
 		_text = text
+        self.style = style
 	}
 	 public var body: some View {
 		VStack(spacing: 5) {
@@ -145,18 +151,22 @@ public struct EnteredText: View {
 				.digitKeyFrame()
 			}
 			HStack(spacing:widthSpace) {
-				Button(action: {
-					if !(text.contains(".")){
-						if text == ""{
-							text.append("0.")
-						}else{
-							text.append(".")
-						}
-					}
-				}) {
-					Text("•")
-				}
-				.digitKeyFrame()
+                if style == .decimil {
+                    Button(action: {
+                        if !(text.contains(".")){
+                            if text == ""{
+                                text.append("0.")
+                            }else{
+                                text.append(".")
+                            }
+                        }
+                    }) {
+                        Text("•")
+                    }
+                    .digitKeyFrame()
+                } else {
+                    Spacer()
+                }
 				Button(action: {
 					text.append("0")
 				}) {
@@ -225,7 +235,7 @@ struct TextField_Previews: PreviewProvider {
 #endif
 @available(iOS 13.0, watchOS 6.0, *)
 struct TextViewStyle: ButtonStyle {
-	init(alignment: TextViewAlignment = .center) {
+    init(alignment: TextViewAlignment = .center, style: KeyboardStyle = .decimil) {
 		self.align = alignment
 	}
 	

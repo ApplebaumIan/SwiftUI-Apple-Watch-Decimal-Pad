@@ -73,3 +73,7 @@ public enum TextViewAlignment {
 	case center
 }
 
+public enum KeyboardStyle {
+    case decimil
+    case numbers
+}
