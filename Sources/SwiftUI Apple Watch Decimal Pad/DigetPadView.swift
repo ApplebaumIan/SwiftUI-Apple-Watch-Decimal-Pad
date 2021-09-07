@@ -15,7 +15,7 @@ public struct DigiTextView: View {
 	@State public var presentingModal: Bool
 	
 	var align: TextViewAlignment
-    public init( placeholder: String, text: Binding<String>, presentingModal:Bool, alignment: TextViewAlignment = .center,style: KeyboardStyle = .decimil){
+    public init( placeholder: String, text: Binding<String>, presentingModal:Bool, alignment: TextViewAlignment = .center,style: KeyboardStyle = .numbers){
 		_text = text
 		_presentingModal = State(initialValue: presentingModal)
 		self.align = alignment
@@ -235,7 +235,7 @@ struct TextField_Previews: PreviewProvider {
 #endif
 @available(iOS 13.0, watchOS 6.0, *)
 struct TextViewStyle: ButtonStyle {
-    init(alignment: TextViewAlignment = .center, style: KeyboardStyle = .decimil) {
+    init(alignment: TextViewAlignment = .center) {
 		self.align = alignment
 	}
 	
