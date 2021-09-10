@@ -47,7 +47,7 @@ public struct EnteredText: View {
 	@Binding var presentedAsModal: Bool
     var style: KeyboardStyle
 	public init(text: Binding<String>, presentedAsModal:
-                    Binding<Bool>, style: KeyboardStyle = .decimil){
+                    Binding<Bool>, style: KeyboardStyle){
 		_text = text
 		_presentedAsModal = presentedAsModal
         self.style = style
@@ -67,7 +67,7 @@ public struct EnteredText: View {
 			.lineLimit(1)
 			.frame(width: 160, height: 15, alignment: .trailing)
 				
-            DigetPadView(text: $text, style: .decimil)
+            DigetPadView(text: $text, style: style)
 
 		}
 //		.edgesIgnoringSafeArea(.all
@@ -203,7 +203,7 @@ public struct EnteredText: View {
 #if DEBUG
 struct EnteredText_Previews: PreviewProvider {
 	static var previews: some View {
-		EnteredText( text: .constant(""), presentedAsModal: .constant(true))
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers)
 	}
 }
 
