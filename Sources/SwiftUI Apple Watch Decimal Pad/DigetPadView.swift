@@ -166,6 +166,8 @@ public struct EnteredText: View {
                     .digitKeyFrame()
                 } else {
                     Spacer()
+                        .padding(1)
+                        .frame(width: 50.0, height: 30.0)
                 }
 				Button(action: {
 					text.append("0")
