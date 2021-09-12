@@ -51,7 +51,7 @@ public struct DigitPadStyle: ButtonStyle {
 				ZStack {
 				RoundedRectangle(cornerRadius: 10, style: .continuous)
 					.fill(configuration.isPressed ? Color.gray.opacity(0.7) : Color.gray.opacity(0.5))
-					.frame(width: configuration.isPressed ? 60.0 : 50.0, height: configuration.isPressed ? 40.0 : 30.0)
+                    .frame(width: configuration.isPressed ? 80.0 : 60.0, height: configuration.isPressed ? 50.0 : 40.0)
 				}
 			)
 			.frame(width: 50.0, height: 30.0)

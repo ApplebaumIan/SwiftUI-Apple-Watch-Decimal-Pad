@@ -79,11 +79,12 @@ public struct EnteredText: View {
                 }
             }
         })
+        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 	}
 }
 @available(iOS 13.0, watchOS 6.0, *)
  public struct DigetPadView: View {
-	public var widthSpace: CGFloat = 4.0
+	public var widthSpace: CGFloat = 12.0
 	@Binding var text:String
     var style: KeyboardStyle
     public init(text: Binding<String>, style: KeyboardStyle){
@@ -91,7 +92,7 @@ public struct EnteredText: View {
         self.style = style
 	}
 	 public var body: some View {
-		VStack(spacing: 5) {
+        VStack(spacing: 12.0) {
 			HStack(spacing: widthSpace){
 				Button(action: {
 					text.append("1")
@@ -189,7 +190,11 @@ public struct EnteredText: View {
 			
 			
 			//				.padding()
-		}
+        }
+        .font(.title2)
+        .padding(.bottom, 5.0)
+        
+        
 //		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 		//		.padding(10.0)
 		//		.frame(width: 150.0, height: 50.0)
@@ -206,6 +211,14 @@ public struct EnteredText: View {
 struct EnteredText_Previews: PreviewProvider {
 	static var previews: some View {
         EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers)
+        Group {
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil)
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil)
+                .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
+        }
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil).previewDevice("Apple Watch Series 6 - 40mm")
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers).previewDevice("Apple Watch Series 3 - 38mm")
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil).previewDevice("Apple Watch Series 3 - 42mm")
 	}
 }
 
