@@ -15,7 +15,7 @@ public struct DigitButtonModifier: ViewModifier {
 	public func body(content: Content) -> some View {
 		return content
 			.buttonStyle(DigitPadStyle())
-			
+
 	}
 }
 
