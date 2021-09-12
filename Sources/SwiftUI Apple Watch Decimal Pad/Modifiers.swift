@@ -35,6 +35,32 @@ public struct DigitButtonModifier: ViewModifier {
 //		self.modifier(TextTrailingAlignmentModifier())
 //	}
 //}
+struct LikeEffect: GeometryEffect {
+
+    var offsetValue: Double // 0...1
+    
+    var animatableData: Double {
+        get { offsetValue }
+        set { offsetValue = newValue }
+    }
+    
+    func effectValue(size: CGSize) -> ProjectionTransform {
+        let reducedValue = offsetValue - floor(offsetValue)
+        let value = 1.0-(cos(2*reducedValue*Double.pi)+1)/2
+
+        let angle  = CGFloat(Double.pi*value*0.3)
+        let translation   = CGFloat(20*value)
+        let scaleFactor  = CGFloat(1+1*value)
+        
+        
+        let affineTransform = CGAffineTransform(translationX: size.width*0.5, y: size.height*0.5)
+        .rotated(by: CGFloat(angle))
+        .translatedBy(x: -size.width*0.5+translation, y: -size.height*0.5-translation)
+        .scaledBy(x: scaleFactor, y: scaleFactor)
+        
+        return ProjectionTransform(affineTransform)
+    }
+}
 
 @available(watchOS 6.0, *)
 public extension Button {
@@ -49,11 +75,13 @@ public struct DigitPadStyle: ButtonStyle {
             configuration.isPressed ?
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .fill(Color.gray.opacity(0.7))
-                .frame(width: configuration.isPressed ? geometry.size.width/0.75 : geometry.size.width, height: configuration.isPressed ? geometry.size.height/0.8 : geometry.size.height)
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .scaleEffect(1.5)
                 :
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .fill(Color.gray.opacity(0.5))
-                .frame(width: configuration.isPressed ? geometry.size.width/0.75 : geometry.size.width, height: configuration.isPressed ? geometry.size.height/0.8 : geometry.size.height)
+                .frame(width:  geometry.size.width, height:  geometry.size.height)
+                .scaleEffect(1)
             
             configuration.label
 //                .padding(1)
@@ -63,13 +91,14 @@ public struct DigitPadStyle: ButtonStyle {
                             RoundedRectangle(cornerRadius: 10, style: .continuous)
                                 .fill(Color.clear)
                                 .frame(width: configuration.isPressed ? geometry.size.width/0.75 : geometry.size.width, height: configuration.isPressed ? geometry.size.height/0.8 : geometry.size.height)
-                            
+                                
                         })
                         
                         
                     }
                 )
                 .frame(width: geometry.size.width, height: geometry.size.height)
+                .scaleEffect(configuration.isPressed ? 1.2 : 1)
         })
 //            Spacer()
 			
@@ -79,9 +108,11 @@ public struct DigitPadStyle: ButtonStyle {
                         #if os(watchOS)
                         WKInterfaceDevice().play(.click)
                         #endif
+                        
 					}
 				}
 			})
+        
 	}
 }
 
