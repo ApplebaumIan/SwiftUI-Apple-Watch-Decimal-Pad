@@ -45,16 +45,34 @@ public extension Button {
 @available(watchOS 6.0, *)
 public struct DigitPadStyle: ButtonStyle {
 	public func makeBody(configuration: Configuration) -> some View {
-		configuration.label
-			.padding(1)
-			.background(
-				ZStack {
-				RoundedRectangle(cornerRadius: 10, style: .continuous)
-					.fill(configuration.isPressed ? Color.gray.opacity(0.7) : Color.gray.opacity(0.5))
-                    .frame(width: configuration.isPressed ? 80.0 : 60.0, height: configuration.isPressed ? 50.0 : 40.0)
-				}
-			)
-			.frame(width: 50.0, height: 30.0)
+        GeometryReader(content: { geometry in
+            configuration.isPressed ?
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(Color.gray.opacity(0.7))
+                .frame(width: configuration.isPressed ? geometry.size.width/0.75 : geometry.size.width, height: configuration.isPressed ? geometry.size.height/0.8 : geometry.size.height)
+                :
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(Color.gray.opacity(0.5))
+                .frame(width: configuration.isPressed ? geometry.size.width/0.75 : geometry.size.width, height: configuration.isPressed ? geometry.size.height/0.8 : geometry.size.height)
+            
+            configuration.label
+                .padding(1)
+                .background(
+                    ZStack {
+                        GeometryReader(content: { geometry in
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(Color.clear)
+                                .frame(width: configuration.isPressed ? geometry.size.width/0.75 : geometry.size.width, height: configuration.isPressed ? geometry.size.height/0.8 : geometry.size.height)
+                            
+                        })
+                        
+                        
+                    }
+                )
+                .frame(width: geometry.size.width, height: geometry.size.height)
+        })
+//            Spacer()
+			
 			.onChange(of: configuration.isPressed, perform: { value in
 				if configuration.isPressed{
 					DispatchQueue.main.async {
@@ -77,3 +95,18 @@ public enum KeyboardStyle {
     case decimil
     case numbers
 }
+#if DEBUG
+struct EnteredTextKeys_Previews: PreviewProvider {
+    static var previews: some View {
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers)
+        Group {
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil)
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil)
+                .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
+        }
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil).previewDevice("Apple Watch Series 6 - 40mm")
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers).previewDevice("Apple Watch Series 3 - 38mm")
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil).previewDevice("Apple Watch Series 3 - 42mm")
+    }
+}
+#endif

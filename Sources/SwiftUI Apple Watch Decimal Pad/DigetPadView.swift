@@ -46,28 +46,44 @@ public struct EnteredText: View {
 	@Binding var text:String
 	@Binding var presentedAsModal: Bool
     var style: KeyboardStyle
+    var watchOSDimensions: CGRect?
+    
 	public init(text: Binding<String>, presentedAsModal:
                     Binding<Bool>, style: KeyboardStyle){
 		_text = text
 		_presentedAsModal = presentedAsModal
         self.style = style
+        #if os(watchOS)
+        let device = WKInterfaceDevice.current()
+        watchOSDimensions = device.screenBounds
+        #endif
 	}
 	public var body: some View{
 		VStack(alignment: .trailing) {
-			Spacer()
-			Spacer()
-			
-			Button(action:{
-				presentedAsModal.toggle()
-			}){
-				Text(text)
-			}
-			.buttonStyle(PlainButtonStyle())
-			.multilineTextAlignment(.trailing)
-			.lineLimit(1)
-			.frame(width: 160, height: 15, alignment: .trailing)
-				
-            DigetPadView(text: $text, style: style)
+//            GeometryReader(content: { geometry in
+               
+                Button(action:{
+                    presentedAsModal.toggle()
+                }){
+                    ZStack(content: {
+                        Text("1")
+                            .foregroundColor(.clear
+                            )
+                    })
+                    Text(text)
+                        .frame(height: watchOSDimensions!.height * 0.15, alignment: .trailing)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .multilineTextAlignment(.trailing)
+                .lineLimit(1)
+                
+                DigetPadView(text: $text, style: style)
+                    .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+//                    .frame(height:100*0.85)
+//            }
+            
+//        )
+
 
 		}
 //		.edgesIgnoringSafeArea(.all
@@ -79,7 +95,7 @@ public struct EnteredText: View {
                 }
             }
         })
-        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+        
 	}
 }
 @available(iOS 13.0, watchOS 6.0, *)
@@ -192,7 +208,7 @@ public struct EnteredText: View {
 			//				.padding()
         }
         .font(.title2)
-        .padding(.bottom, 5.0)
+//        .padding(.bottom, 5.0)
         
         
 //		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
