@@ -56,7 +56,7 @@ public struct DigitPadStyle: ButtonStyle {
                 .frame(width: configuration.isPressed ? geometry.size.width/0.75 : geometry.size.width, height: configuration.isPressed ? geometry.size.height/0.8 : geometry.size.height)
             
             configuration.label
-                .padding(1)
+//                .padding(1)
                 .background(
                     ZStack {
                         GeometryReader(content: { geometry in

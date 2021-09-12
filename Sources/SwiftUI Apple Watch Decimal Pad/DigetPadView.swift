@@ -100,7 +100,7 @@ public struct EnteredText: View {
 }
 @available(iOS 13.0, watchOS 6.0, *)
  public struct DigetPadView: View {
-	public var widthSpace: CGFloat = 12.0
+	public var widthSpace: CGFloat = 1.0
 	@Binding var text:String
     var style: KeyboardStyle
     public init(text: Binding<String>, style: KeyboardStyle){
@@ -108,7 +108,7 @@ public struct EnteredText: View {
         self.style = style
 	}
 	 public var body: some View {
-        VStack(spacing: 12.0) {
+        VStack(spacing: 1) {
 			HStack(spacing: widthSpace){
 				Button(action: {
 					text.append("1")
@@ -184,7 +184,7 @@ public struct EnteredText: View {
                 } else {
                     Spacer()
                         .padding(1)
-                        .frame(width: 50.0, height: 30.0)
+//                        .frame(width: 50.0, height: 30.0)
                 }
 				Button(action: {
 					text.append("0")
