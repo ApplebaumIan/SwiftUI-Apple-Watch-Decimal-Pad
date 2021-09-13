@@ -123,7 +123,7 @@ public enum TextViewAlignment {
 }
 
 public enum KeyboardStyle {
-    case decimil
+    case decimal
     case numbers
 }
 #if DEBUG
@@ -131,13 +131,13 @@ struct EnteredTextKeys_Previews: PreviewProvider {
     static var previews: some View {
         EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers)
         Group {
-            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil)
-            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil)
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal)
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal)
                 .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
         }
-        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil).previewDevice("Apple Watch Series 6 - 40mm")
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal).previewDevice("Apple Watch Series 6 - 40mm")
         EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers).previewDevice("Apple Watch Series 3 - 38mm")
-        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil).previewDevice("Apple Watch Series 3 - 42mm")
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal).previewDevice("Apple Watch Series 3 - 42mm")
     }
 }
 #endif

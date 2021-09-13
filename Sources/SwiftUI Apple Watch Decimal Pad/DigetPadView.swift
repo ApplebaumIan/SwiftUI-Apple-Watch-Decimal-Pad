@@ -170,7 +170,7 @@ public struct EnteredText: View {
 				.digitKeyFrame()
 			}
 			HStack(spacing:widthSpace) {
-                if style == .decimil {
+                if style == .decimal {
                     Button(action: {
                         if !(text.contains(".")){
                             if text == ""{
@@ -230,20 +230,20 @@ struct EnteredText_Previews: PreviewProvider {
 	static var previews: some View {
         EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers)
         Group {
-            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil)
-            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil)
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal)
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal)
                 .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
-            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil)
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal)
                 .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
                 .accessibilityElement(children: /*@START_MENU_TOKEN@*/.contain/*@END_MENU_TOKEN@*/)
                 
         }
-        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil).previewDevice("Apple Watch Series 6 - 40mm")
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal).previewDevice("Apple Watch Series 6 - 40mm")
         Group {
             EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers).previewDevice("Apple Watch Series 3 - 38mm")
             EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers).environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge).previewDevice("Apple Watch Series 3 - 38mm")
         }
-        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil).previewDevice("Apple Watch Series 3 - 42mm")
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal).previewDevice("Apple Watch Series 3 - 42mm")
 	}
 }
 
