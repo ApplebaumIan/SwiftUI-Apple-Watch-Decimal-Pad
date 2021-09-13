@@ -67,10 +67,12 @@ public struct EnteredText: View {
                 }){
                     ZStack(content: {
                         Text("1")
+                            .font(.title2)
                             .foregroundColor(.clear
                             )
                     })
                     Text(text)
+                        .font(.title2)
                         .frame(height: watchOSDimensions!.height * 0.15, alignment: .trailing)
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -231,9 +233,16 @@ struct EnteredText_Previews: PreviewProvider {
             EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil)
             EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil)
                 .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil)
+                .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
+                .accessibilityElement(children: /*@START_MENU_TOKEN@*/.contain/*@END_MENU_TOKEN@*/)
+                
         }
         EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil).previewDevice("Apple Watch Series 6 - 40mm")
-        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers).previewDevice("Apple Watch Series 3 - 38mm")
+        Group {
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers).previewDevice("Apple Watch Series 3 - 38mm")
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers).environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge).previewDevice("Apple Watch Series 3 - 38mm")
+        }
         EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimil).previewDevice("Apple Watch Series 3 - 42mm")
 	}
 }
