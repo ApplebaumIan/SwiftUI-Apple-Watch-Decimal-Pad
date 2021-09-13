@@ -2,7 +2,12 @@
 
 With SwiftUI currently, Apple has not provided a decimal keypad for watchOS. Nor have they provided the ability to switch input types on a `TextField()` for watchOS. This is my kinda dirty fix. 
 
-![Demo of Keyboard](Image-6.gif)
+### Apple Watch Series 4-6 44mm
+![Demo of Keyboard 44mm Screen Size](Image-6.gif)
+
+### Apple Watch Series 0-3 32mm
+![Demo of Keyboard 32mm Screen Size](Image-2.gif)
+
 
 ## Installation Instructions
 WatchOS also has a weird issue with Swift Packages where you have to manually add the framework to the Watch Extension. 
