@@ -7,18 +7,20 @@
 
 import SwiftUI
 
-@available(iOS 13.0, watchOS 6.0, *)
+@available(watchOS 6.0, *)
 public struct DigiTextView: View {
+    var style: KeyboardStyle
 	var placeholder: String
 	@Binding public var text: String
 	@State public var presentingModal: Bool
 	
 	var align: TextViewAlignment
-	public init( placeholder: String, text: Binding<String>, presentingModal:Bool, alignment: TextViewAlignment = .center){
+    public init( placeholder: String, text: Binding<String>, presentingModal:Bool, alignment: TextViewAlignment = .center,style: KeyboardStyle = .numbers){
 		_text = text
 		_presentingModal = State(initialValue: presentingModal)
 		self.align = alignment
 		self.placeholder = placeholder
+        self.style = style
 	}
 	
 	public var body: some View {
@@ -26,8 +28,7 @@ public struct DigiTextView: View {
 			presentingModal.toggle()
 		}) {
 			if text != ""{
-			Text(text)
-				.lineLimit(1)
+                Text(text)
 			}
 			else{
 				Text(placeholder)
@@ -36,58 +37,80 @@ public struct DigiTextView: View {
 			}
 		}.buttonStyle(TextViewStyle(alignment: align))
 		.sheet(isPresented: $presentingModal, content: {
-			EnteredText(text: $text, presentedAsModal: $presentingModal)
+            EnteredText(text: $text, presentedAsModal: $presentingModal, style: self.style)
 		})		
 	}
 }
-@available(iOS 13.0, watchOS 6.0, *)
+@available(watchOS 6.0, *)
 public struct EnteredText: View {
 	@Binding var text:String
 	@Binding var presentedAsModal: Bool
+    var style: KeyboardStyle
+    var watchOSDimensions: CGRect?
+    
 	public init(text: Binding<String>, presentedAsModal:
-					Binding<Bool>){
+                    Binding<Bool>, style: KeyboardStyle){
 		_text = text
 		_presentedAsModal = presentedAsModal
+        self.style = style
+        #if os(watchOS)
+        let device = WKInterfaceDevice.current()
+        watchOSDimensions = device.screenBounds
+        #endif
 	}
 	public var body: some View{
 		VStack(alignment: .trailing) {
-			Spacer()
-			Spacer()
-			Button(action: {
-				presentedAsModal.toggle()
-			}) {
-				Text("Enter")
-			}
-			.buttonStyle(PlainButtonStyle())
-			.foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-			
-			Button(action:{
-				presentedAsModal.toggle()
-			}){
-				Text(text)
-			}
-			.buttonStyle(PlainButtonStyle())
-			.multilineTextAlignment(.trailing)
-			.lineLimit(1)
-			.frame(width: 160, height: 15, alignment: .trailing)
-				
-			DigetPadView(text: $text)
+//            GeometryReader(content: { geometry in
+               
+                Button(action:{
+                    presentedAsModal.toggle()
+                }){
+                    ZStack(content: {
+                        Text("1")
+                            .font(.title2)
+                            .foregroundColor(.clear
+                            )
+                    })
+                    Text(text)
+                        .font(.title2)
+                        .frame(height: watchOSDimensions!.height * 0.15, alignment: .trailing)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .multilineTextAlignment(.trailing)
+                .lineLimit(1)
+                
+                DigetPadView(text: $text, style: style)
+                    .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+//                    .frame(height:100*0.85)
+//            }
+            
+//        )
+
 
 		}
 //		.edgesIgnoringSafeArea(.all
 //		)
-		
+        .toolbar(content: {
+            ToolbarItem(placement: .cancellationAction){
+                Button("Done"){
+                    presentedAsModal.toggle()
+                }
+            }
+        })
+        
 	}
 }
 @available(iOS 13.0, watchOS 6.0, *)
  public struct DigetPadView: View {
-	public var widthSpace: CGFloat = 4.0
+	public var widthSpace: CGFloat = 1.0
 	@Binding var text:String
-	public init(text: Binding<String>){
+    var style: KeyboardStyle
+    public init(text: Binding<String>, style: KeyboardStyle){
 		_text = text
+        self.style = style
 	}
 	 public var body: some View {
-		VStack(spacing: 5) {
+        VStack(spacing: 1) {
 			HStack(spacing: widthSpace){
 				Button(action: {
 					text.append("1")
@@ -147,18 +170,24 @@ public struct EnteredText: View {
 				.digitKeyFrame()
 			}
 			HStack(spacing:widthSpace) {
-				Button(action: {
-					if !(text.contains(".")){
-						if text == ""{
-							text.append("0.")
-						}else{
-							text.append(".")
-						}
-					}
-				}) {
-					Text("•")
-				}
-				.digitKeyFrame()
+                if style == .decimal {
+                    Button(action: {
+                        if !(text.contains(".")){
+                            if text == ""{
+                                text.append("0.")
+                            }else{
+                                text.append(".")
+                            }
+                        }
+                    }) {
+                        Text("•")
+                    }
+                    .digitKeyFrame()
+                } else {
+                    Spacer()
+                        .padding(1)
+//                        .frame(width: 50.0, height: 30.0)
+                }
 				Button(action: {
 					text.append("0")
 				}) {
@@ -179,7 +208,11 @@ public struct EnteredText: View {
 			
 			
 			//				.padding()
-		}
+        }
+        .font(.title2)
+//        .padding(.bottom, 5.0)
+        
+        
 //		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 		//		.padding(10.0)
 		//		.frame(width: 150.0, height: 50.0)
@@ -195,7 +228,22 @@ public struct EnteredText: View {
 #if DEBUG
 struct EnteredText_Previews: PreviewProvider {
 	static var previews: some View {
-		EnteredText( text: .constant(""), presentedAsModal: .constant(true))
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers)
+        Group {
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal)
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal)
+                .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal)
+                .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
+                .accessibilityElement(children: /*@START_MENU_TOKEN@*/.contain/*@END_MENU_TOKEN@*/)
+                
+        }
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal).previewDevice("Apple Watch Series 6 - 40mm")
+        Group {
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers).previewDevice("Apple Watch Series 3 - 38mm")
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers).environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge).previewDevice("Apple Watch Series 3 - 38mm")
+        }
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal).previewDevice("Apple Watch Series 3 - 42mm")
 	}
 }
 
@@ -227,7 +275,7 @@ struct TextField_Previews: PreviewProvider {
 #endif
 @available(iOS 13.0, watchOS 6.0, *)
 struct TextViewStyle: ButtonStyle {
-	init(alignment: TextViewAlignment = .center) {
+    init(alignment: TextViewAlignment = .center) {
 		self.align = alignment
 	}
 	
@@ -251,14 +299,6 @@ struct TextViewStyle: ButtonStyle {
 					ZStack{
 				RoundedRectangle(cornerRadius: 7, style: .continuous)
 					.fill(configuration.isPressed ? Color.gray.opacity(0.1): Color.gray.opacity(0.2))
-					.frame(width:
-							configuration.isPressed ?
-						geometry.size.width - 2 : geometry.size.width
-						,
-						   height:
-							configuration.isPressed ?
-						geometry.size.height - 2 : geometry.size.height
-					)
 					}
 			})
 			

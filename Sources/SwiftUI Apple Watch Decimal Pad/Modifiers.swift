@@ -10,12 +10,12 @@ import SwiftUI
 #if os(watchOS)
 import WatchKit
 #endif
-@available(iOS 13.0, watchOS 6.0, *)
+@available(watchOS 6.0, *)
 public struct DigitButtonModifier: ViewModifier {
 	public func body(content: Content) -> some View {
 		return content
 			.buttonStyle(DigitPadStyle())
-			
+
 	}
 }
 
@@ -35,35 +35,84 @@ public struct DigitButtonModifier: ViewModifier {
 //		self.modifier(TextTrailingAlignmentModifier())
 //	}
 //}
+struct LikeEffect: GeometryEffect {
 
-@available(iOS 13.0, watchOS 6.0, *)
+    var offsetValue: Double // 0...1
+    
+    var animatableData: Double {
+        get { offsetValue }
+        set { offsetValue = newValue }
+    }
+    
+    func effectValue(size: CGSize) -> ProjectionTransform {
+        let reducedValue = offsetValue - floor(offsetValue)
+        let value = 1.0-(cos(2*reducedValue*Double.pi)+1)/2
+
+        let angle  = CGFloat(Double.pi*value*0.3)
+        let translation   = CGFloat(20*value)
+        let scaleFactor  = CGFloat(1+1*value)
+        
+        
+        let affineTransform = CGAffineTransform(translationX: size.width*0.5, y: size.height*0.5)
+        .rotated(by: CGFloat(angle))
+        .translatedBy(x: -size.width*0.5+translation, y: -size.height*0.5-translation)
+        .scaledBy(x: scaleFactor, y: scaleFactor)
+        
+        return ProjectionTransform(affineTransform)
+    }
+}
+
+@available(watchOS 6.0, *)
 public extension Button {
 	func digitKeyFrame() -> some View {
 		self.modifier(DigitButtonModifier())
 	}
 }
-@available(iOS 13.0, watchOS 6.0, *)
+@available(watchOS 6.0, *)
 public struct DigitPadStyle: ButtonStyle {
 	public func makeBody(configuration: Configuration) -> some View {
-		configuration.label
-			.padding(1)
-			.background(
-				ZStack {
-				RoundedRectangle(cornerRadius: 10, style: .continuous)
-					.fill(configuration.isPressed ? Color.gray.opacity(0.7) : Color.gray.opacity(0.5))
-					.frame(width: configuration.isPressed ? 60.0 : 50.0, height: configuration.isPressed ? 40.0 : 30.0)
-				}
-			)
-			.frame(width: 50.0, height: 30.0)
+        GeometryReader(content: { geometry in
+            configuration.isPressed ?
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(Color.gray.opacity(0.7))
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .scaleEffect(1.5)
+                :
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(Color.gray.opacity(0.5))
+                .frame(width:  geometry.size.width, height:  geometry.size.height)
+                .scaleEffect(1)
+            
+            configuration.label
+//                .padding(1)
+                .background(
+                    ZStack {
+                        GeometryReader(content: { geometry in
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(Color.clear)
+                                .frame(width: configuration.isPressed ? geometry.size.width/0.75 : geometry.size.width, height: configuration.isPressed ? geometry.size.height/0.8 : geometry.size.height)
+                                
+                        })
+                        
+                        
+                    }
+                )
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .scaleEffect(configuration.isPressed ? 1.2 : 1)
+        })
+//            Spacer()
+			
 			.onChange(of: configuration.isPressed, perform: { value in
 				if configuration.isPressed{
 					DispatchQueue.main.async {
                         #if os(watchOS)
-						WKInterfaceDevice().play(.click)
+                        WKInterfaceDevice().play(.click)
                         #endif
+                        
 					}
 				}
 			})
+        
 	}
 }
 
@@ -73,3 +122,22 @@ public enum TextViewAlignment {
 	case center
 }
 
+public enum KeyboardStyle {
+    case decimal
+    case numbers
+}
+#if DEBUG
+struct EnteredTextKeys_Previews: PreviewProvider {
+    static var previews: some View {
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers)
+        Group {
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal)
+            EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal)
+                .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
+        }
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal).previewDevice("Apple Watch Series 6 - 40mm")
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers).previewDevice("Apple Watch Series 3 - 38mm")
+        EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal).previewDevice("Apple Watch Series 3 - 42mm")
+    }
+}
+#endif
