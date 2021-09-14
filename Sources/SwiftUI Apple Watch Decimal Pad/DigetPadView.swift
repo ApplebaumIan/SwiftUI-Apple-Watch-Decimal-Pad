@@ -198,6 +198,7 @@ public struct EnteredText: View {
 #endif
 
 #if DEBUG
+#if os(watchOS)
 struct EnteredText_Previews: PreviewProvider {
 	static var previews: some View {
         EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers)
@@ -244,6 +245,7 @@ struct TextField_Previews: PreviewProvider {
 		}
 	}
 }
+#endif
 #endif
 #if os(watchOS)
 @available(iOS 13.0, watchOS 6.0, *)
