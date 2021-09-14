@@ -60,8 +60,6 @@ public struct EnteredText: View {
 	}
 	public var body: some View{
 		VStack(alignment: .trailing) {
-//            GeometryReader(content: { geometry in
-               
                 Button(action:{
                     presentedAsModal.toggle()
                 }){
@@ -81,15 +79,7 @@ public struct EnteredText: View {
                 
                 DigetPadView(text: $text, style: style)
                     .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-//                    .frame(height:100*0.85)
-//            }
-            
-//        )
-
-
 		}
-//		.edgesIgnoringSafeArea(.all
-//		)
         .toolbar(content: {
             ToolbarItem(placement: .cancellationAction){
                 Button("Done"){
@@ -186,7 +176,6 @@ public struct EnteredText: View {
                 } else {
                     Spacer()
                         .padding(1)
-//                        .frame(width: 50.0, height: 30.0)
                 }
 				Button(action: {
 					text.append("0")
@@ -203,28 +192,13 @@ public struct EnteredText: View {
 					Image(systemName: "delete.left")
 				}
 				.digitKeyFrame()
-				//
 			}
-			
-			
-			//				.padding()
         }
         .font(.title2)
-//        .padding(.bottom, 5.0)
-        
-        
-//		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-		//		.padding(10.0)
-		//		.frame(width: 150.0, height: 50.0)
 	}
 }
 
 
-//struct DigetView_Previews: PreviewProvider {
-//	static var previews: some View {
-////		DigetPadView( text: "b")
-//	}
-//}
 #if DEBUG
 struct EnteredText_Previews: PreviewProvider {
 	static var previews: some View {

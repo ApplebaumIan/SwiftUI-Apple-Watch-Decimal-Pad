@@ -19,48 +19,6 @@ public struct DigitButtonModifier: ViewModifier {
 	}
 }
 
-//@available(iOS 13.0, watchOS 6.0, *)
-//public struct TextTrailingAlignmentModifier: ViewModifier{
-//	public typealias Body = DigiTextView
-//
-//	public func body(content: Content) -> DigiTextView {
-//		return content.setAlign
-//	}
-//
-//
-//}
-//
-//public extension DigiTextView{
-//	func alignTextTrailing() -> some View {
-//		self.modifier(TextTrailingAlignmentModifier())
-//	}
-//}
-struct LikeEffect: GeometryEffect {
-
-    var offsetValue: Double // 0...1
-    
-    var animatableData: Double {
-        get { offsetValue }
-        set { offsetValue = newValue }
-    }
-    
-    func effectValue(size: CGSize) -> ProjectionTransform {
-        let reducedValue = offsetValue - floor(offsetValue)
-        let value = 1.0-(cos(2*reducedValue*Double.pi)+1)/2
-
-        let angle  = CGFloat(Double.pi*value*0.3)
-        let translation   = CGFloat(20*value)
-        let scaleFactor  = CGFloat(1+1*value)
-        
-        
-        let affineTransform = CGAffineTransform(translationX: size.width*0.5, y: size.height*0.5)
-        .rotated(by: CGFloat(angle))
-        .translatedBy(x: -size.width*0.5+translation, y: -size.height*0.5-translation)
-        .scaledBy(x: scaleFactor, y: scaleFactor)
-        
-        return ProjectionTransform(affineTransform)
-    }
-}
 
 @available(watchOS 6.0, *)
 public extension Button {
@@ -84,7 +42,6 @@ public struct DigitPadStyle: ButtonStyle {
                 .scaleEffect(1)
             
             configuration.label
-//                .padding(1)
                 .background(
                     ZStack {
                         GeometryReader(content: { geometry in
@@ -100,8 +57,6 @@ public struct DigitPadStyle: ButtonStyle {
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .scaleEffect(configuration.isPressed ? 1.2 : 1)
         })
-//            Spacer()
-			
 			.onChange(of: configuration.isPressed, perform: { value in
 				if configuration.isPressed{
 					DispatchQueue.main.async {
