@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 #if os(watchOS)
 import WatchKit
-#endif
 @available(watchOS 6.0, *)
 public struct DigitButtonModifier: ViewModifier {
 	public func body(content: Content) -> some View {
@@ -70,7 +69,7 @@ public struct DigitPadStyle: ButtonStyle {
         
 	}
 }
-
+#endif
 public enum TextViewAlignment {
 	case trailing
 	case leading

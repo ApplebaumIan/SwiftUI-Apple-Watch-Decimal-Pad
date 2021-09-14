@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+#if os(watchOS)
 @available(watchOS 6.0, *)
 public struct DigiTextView: View {
     var style: KeyboardStyle
@@ -53,10 +53,8 @@ public struct EnteredText: View {
 		_text = text
 		_presentedAsModal = presentedAsModal
         self.style = style
-        #if os(watchOS)
         let device = WKInterfaceDevice.current()
         watchOSDimensions = device.screenBounds
-        #endif
 	}
 	public var body: some View{
 		VStack(alignment: .trailing) {
@@ -197,7 +195,7 @@ public struct EnteredText: View {
         .font(.title2)
 	}
 }
-
+#endif
 
 #if DEBUG
 struct EnteredText_Previews: PreviewProvider {
@@ -247,6 +245,7 @@ struct TextField_Previews: PreviewProvider {
 	}
 }
 #endif
+#if os(watchOS)
 @available(iOS 13.0, watchOS 6.0, *)
 struct TextViewStyle: ButtonStyle {
     init(alignment: TextViewAlignment = .center) {
@@ -279,3 +278,4 @@ struct TextViewStyle: ButtonStyle {
 	}
 	
 }
+#endif
