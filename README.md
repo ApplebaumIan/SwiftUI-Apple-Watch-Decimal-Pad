@@ -1,4 +1,5 @@
 # SwiftUI Apple Watch Decimal Pad
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FApplebaumIan%2FSwiftUI-Apple-Watch-Decimal-Pad%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/ApplebaumIan/SwiftUI-Apple-Watch-Decimal-Pad) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FApplebaumIan%2FSwiftUI-Apple-Watch-Decimal-Pad%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/ApplebaumIan/SwiftUI-Apple-Watch-Decimal-Pad)
 
 With SwiftUI currently, Apple has not provided a decimal keypad for watchOS. Nor have they provided the ability to switch input types on a `TextField()` for watchOS. This is my kinda dirty fix. 
 
