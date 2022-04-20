@@ -9,18 +9,20 @@ import SwiftUI
 #if os(watchOS)
 @available(watchOS 6.0, *)
 public struct DigiTextView: View {
+    private var locale: Locale
     var style: KeyboardStyle
 	var placeholder: String
 	@Binding public var text: String
 	@State public var presentingModal: Bool
 	
 	var align: TextViewAlignment
-    public init( placeholder: String, text: Binding<String>, presentingModal:Bool, alignment: TextViewAlignment = .center,style: KeyboardStyle = .numbers){
+    public init( placeholder: String, text: Binding<String>, presentingModal:Bool, alignment: TextViewAlignment = .center,style: KeyboardStyle = .numbers, locale: Locale = .current){
 		_text = text
 		_presentingModal = State(initialValue: presentingModal)
 		self.align = alignment
 		self.placeholder = placeholder
         self.style = style
+        self.locale = locale
 	}
 	
 	public var body: some View {
@@ -37,7 +39,7 @@ public struct DigiTextView: View {
 			}
 		}.buttonStyle(TextViewStyle(alignment: align))
 		.sheet(isPresented: $presentingModal, content: {
-            EnteredText(text: $text, presentedAsModal: $presentingModal, style: self.style)
+            EnteredText(text: $text, presentedAsModal: $presentingModal, style: self.style, locale: locale)
 		})		
 	}
 }
@@ -47,12 +49,14 @@ public struct EnteredText: View {
 	@Binding var presentedAsModal: Bool
     var style: KeyboardStyle
     var watchOSDimensions: CGRect?
+    private var locale: Locale
     
 	public init(text: Binding<String>, presentedAsModal:
-                    Binding<Bool>, style: KeyboardStyle){
+                Binding<Bool>, style: KeyboardStyle, locale: Locale = .current){
 		_text = text
 		_presentedAsModal = presentedAsModal
         self.style = style
+        self.locale = locale
         let device = WKInterfaceDevice.current()
         watchOSDimensions = device.screenBounds
 	}
@@ -75,7 +79,7 @@ public struct EnteredText: View {
                 .multilineTextAlignment(.trailing)
                 .lineLimit(1)
                 
-                DigetPadView(text: $text, style: style)
+                DigetPadView(text: $text, style: style, locale: locale)
                     .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 		}
         .toolbar(content: {
@@ -93,9 +97,14 @@ public struct EnteredText: View {
 	public var widthSpace: CGFloat = 1.0
 	@Binding var text:String
     var style: KeyboardStyle
-    public init(text: Binding<String>, style: KeyboardStyle){
+    private var decimalSeparator: String
+    public init(text: Binding<String>, style: KeyboardStyle, locale: Locale = .current) {
 		_text = text
         self.style = style
+
+        let numberFormatter = NumberFormatter()
+        numberFormatter.locale = locale
+        decimalSeparator = numberFormatter.decimalSeparator
 	}
 	 public var body: some View {
         VStack(spacing: 1) {
@@ -160,15 +169,15 @@ public struct EnteredText: View {
 			HStack(spacing:widthSpace) {
                 if style == .decimal {
                     Button(action: {
-                        if !(text.contains(".")){
+                        if !(text.contains(decimalSeparator)){
                             if text == ""{
-                                text.append("0.")
+                                text.append("0\(decimalSeparator)")
                             }else{
-                                text.append(".")
+                                text.append(decimalSeparator)
                             }
                         }
                     }) {
-                        Text("•")
+                        Text(decimalSeparator)
                     }
                     .digitKeyFrame()
                 } else {
