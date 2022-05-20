@@ -62,24 +62,55 @@ public struct EnteredText: View {
 	}
 	public var body: some View{
 		VStack(alignment: .trailing) {
+            if style != .calculator {
                 Button(action:{
-                    presentedAsModal.toggle()
-                }){
+                        presentedAsModal.toggle()
+                    }){
+                        ZStack(content: {
+                            Text("1")
+                                .font(.title2)
+                                .foregroundColor(.clear
+                                )
+                        })
+                        Text(text)
+                            .font(.title2)
+                            .frame(height: watchOSDimensions!.height * 0.15, alignment: .trailing)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .multilineTextAlignment(.trailing)
+                .lineLimit(1)
+            } else {
+                HStack {
                     ZStack(content: {
                         Text("1")
                             .font(.title2)
                             .foregroundColor(.clear
                             )
                     })
-                    Text(text)
-                        .font(.title2)
-                        .frame(height: watchOSDimensions!.height * 0.15, alignment: .trailing)
-                }
-                .buttonStyle(PlainButtonStyle())
-                .multilineTextAlignment(.trailing)
-                .lineLimit(1)
                 
-                DigetPadView(text: $text, style: style, locale: locale)
+                Text(text)
+                    .font(.title2)
+                    .frame(height: watchOSDimensions!.height * 0.15, alignment: .trailing)
+                if text != "" && style == .calculator {
+                        Button {
+                            if let last = text.indices.last{
+                                text.remove(at: last)
+                            }
+                        }
+                    label: {
+                        Label("delete", systemImage: "delete.left.fill")
+                            .labelStyle(.iconOnly)
+                            .font(.title2)
+
+                    }
+                    .buttonStyle(.plain)
+                }
+                
+                }
+                
+            }
+                
+            DigetPadView(text: $text, presentedAsModal: $presentedAsModal, style: style, locale: locale)
                     .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 		}
         .toolbar(content: {
@@ -94,80 +125,190 @@ public struct EnteredText: View {
 }
 @available(iOS 13.0, watchOS 6.0, *)
  public struct DigetPadView: View {
+     @Binding var presentedAsModal: Bool
+
 	public var widthSpace: CGFloat = 1.0
 	@Binding var text:String
     var style: KeyboardStyle
     private var decimalSeparator: String
-    public init(text: Binding<String>, style: KeyboardStyle, locale: Locale = .current) {
+    public init(text: Binding<String>, presentedAsModal:
+                Binding<Bool>, style: KeyboardStyle,  locale: Locale = .current) {
 		_text = text
         self.style = style
+        _presentedAsModal = presentedAsModal
 
         let numberFormatter = NumberFormatter()
         numberFormatter.locale = locale
         decimalSeparator = numberFormatter.decimalSeparator
 	}
 	 public var body: some View {
-        VStack(spacing: 1) {
-			HStack(spacing: widthSpace){
-				Button(action: {
-					text.append("1")
-				}) {
-					Text("1")
-						.padding(0)
-				}
-				.digitKeyFrame()
-				Button(action: {
-					text.append("2")
-				}) {
-					Text("2")
-				}.digitKeyFrame()
-				
-				Button(action: {
-					text.append("3")
-				}) {
-							Text("3")
-						}.digitKeyFrame()
-			}
-			HStack(spacing:widthSpace){
-				Button(action: {
-					text.append("4")
-				}) {
-					Text("4")
-				}.digitKeyFrame()
-				Button(action: {
-					text.append("5")
-				}) {
-					Text("5")
-				}.digitKeyFrame()
-				
-				Button(action: {
-					text.append("6")
-				}) {
-					Text("6")
-				}.digitKeyFrame()
-			}
-			
-			HStack(spacing:widthSpace){
-				Button(action: {
-					text.append("7")
-				}) {
-					Text("7")
-				}.digitKeyFrame()
-				Button(action: {
-					text.append("8")
-				}) {
-					Text("8")
-				}.digitKeyFrame()
-				
-				Button(action: {
-					text.append("9")
-				}) {
-					Text("9")
-				}
-				.digitKeyFrame()
-			}
-			HStack(spacing:widthSpace) {
-                if style == .decimal {
+         VStack {
+             if style != .calculator {
+                 VStack(spacing: 1) {
+                HStack(spacing: widthSpace){
+                    Button(action: {
+                        text.append("1")
+                    }) {
+                        Text("1")
+                            .padding(0)
+                    }
+                    .digitKeyFrame()
+                    Button(action: {
+                        text.append("2")
+                    }) {
+                        Text("2")
+                    }.digitKeyFrame()
+                    
+                    Button(action: {
+                        text.append("3")
+                    }) {
+                                Text("3")
+                            }.digitKeyFrame()
+                }
+                HStack(spacing:widthSpace){
+                    Button(action: {
+                        text.append("4")
+                    }) {
+                        Text("4")
+                    }.digitKeyFrame()
+                    Button(action: {
+                        text.append("5")
+                    }) {
+                        Text("5")
+                    }.digitKeyFrame()
+                    
+                    Button(action: {
+                        text.append("6")
+                    }) {
+                        Text("6")
+                    }.digitKeyFrame()
+                }
+                
+                HStack(spacing:widthSpace){
+                    Button(action: {
+                        text.append("7")
+                    }) {
+                        Text("7")
+                    }.digitKeyFrame()
+                    Button(action: {
+                        text.append("8")
+                    }) {
+                        Text("8")
+                    }.digitKeyFrame()
+                    
+                    Button(action: {
+                        text.append("9")
+                    }) {
+                        Text("9")
+                    }
+                    .digitKeyFrame()
+                }
+                HStack(spacing:widthSpace) {
+                    if style == .decimal {
+                        Button(action: {
+                            if !(text.contains(decimalSeparator)){
+                                if text == ""{
+                                    text.append("0\(decimalSeparator)")
+                                }else{
+                                    text.append(decimalSeparator)
+                                }
+                            }
+                        }) {
+                            Text(decimalSeparator)
+                        }
+                        .digitKeyFrame()
+                    } else {
+                        Spacer()
+                            .padding(1)
+                    }
+                    Button(action: {
+                        text.append("0")
+                    }) {
+                        Text("0")
+                    }
+                    .digitKeyFrame()
+                    
+                    Button(action: {
+                        if let last = text.indices.last{
+                            text.remove(at: last)
+                        }
+                    }) {
+                        Image(systemName: "delete.left")
+                    }
+                    .digitKeyFrame()
+                }
+            }
+                
+             } else {
+                 VStack(spacing: 1) {
+                
+                HStack(spacing:widthSpace){
+                    Button(action: {
+                        text.append("7")
+                    }) {
+                        Text("7")
+                    }.digitKeyFrame()
+                    Button(action: {
+                        text.append("8")
+                    }) {
+                        Text("8")
+                    }.digitKeyFrame()
+                    
+                    Button(action: {
+                        text.append("9")
+                    }) {
+                        Text("9")
+                    }
+                    .digitKeyFrame()
+                }
+                     HStack(spacing:widthSpace){
+                         Button(action: {
+                             text.append("4")
+                         }) {
+                             Text("4")
+                         }.digitKeyFrame()
+                         Button(action: {
+                             text.append("5")
+                         }) {
+                             Text("5")
+                         }.digitKeyFrame()
+                         
+                         Button(action: {
+                             text.append("6")
+                         }) {
+                             Text("6")
+                         }.digitKeyFrame()
+                     }
+                     HStack(spacing: widthSpace){
+                         Button(action: {
+                             text.append("1")
+                         }) {
+                             Text("1")
+                                 .padding(0)
+                         }
+                         .digitKeyFrame()
+                         Button(action: {
+                             text.append("2")
+                         }) {
+                             Text("2")
+                         }.digitKeyFrame()
+                         
+                         Button(action: {
+                             text.append("3")
+                         }) {
+                                     Text("3")
+                                 }.digitKeyFrame()
+                     }
+                HStack(spacing:widthSpace) {
+                   
+                        
+                    
+                    Button(action: {
+                        text.append("0")
+                    }) {
+                        Text("0")
+                    }
+                    .digitKeyFrame()
                     Button(action: {
                         if !(text.contains(decimalSeparator)){
                             if text == ""{
@@ -180,28 +321,25 @@ public struct EnteredText: View {
                         Text(decimalSeparator)
                     }
                     .digitKeyFrame()
-                } else {
-                    Spacer()
-                        .padding(1)
+                    Button(action: {
+                        presentedAsModal.toggle()
+                    }) {
+                        Image(systemName: "return")
+                    }
+                    .digitKeyFrame()
+//                    Button(action: {
+//                        if let last = text.indices.last{
+//                            text.remove(at: last)
+//                        }
+//                    }) {
+//                        Image(systemName: "delete.left")
+//                    }
+//                    .digitKeyFrame()
                 }
-				Button(action: {
-					text.append("0")
-				}) {
-					Text("0")
-				}
-				.digitKeyFrame()
-				
-				Button(action: {
-					if let last = text.indices.last{
-						text.remove(at: last)
-					}
-				}) {
-					Image(systemName: "delete.left")
-				}
-				.digitKeyFrame()
-			}
-        }
-        .font(.title2)
+            }
+             }
+         }
+         .font(.title2)
 	}
 }
 #endif
@@ -211,6 +349,7 @@ public struct EnteredText: View {
 struct EnteredText_Previews: PreviewProvider {
 	static var previews: some View {
         EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers)
+        EnteredText( text: .constant("1"), presentedAsModal: .constant(true), style: .calculator)
         Group {
             EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal)
             EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal)

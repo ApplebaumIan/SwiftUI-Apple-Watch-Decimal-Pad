@@ -80,6 +80,7 @@ public enum TextViewAlignment {
 
 public enum KeyboardStyle {
     case decimal
+    case calculator
     case numbers
 }
 #if DEBUG
