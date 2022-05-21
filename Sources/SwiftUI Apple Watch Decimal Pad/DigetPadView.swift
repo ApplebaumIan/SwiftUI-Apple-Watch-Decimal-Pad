@@ -91,7 +91,9 @@ public struct EnteredText: View {
                 Text(text)
                     .font(.title2)
                     .frame(height: watchOSDimensions!.height * 0.15, alignment: .trailing)
+                    
                 if text != "" && style == .calculator {
+                    withAnimation {
                         Button {
                             if let last = text.indices.last{
                                 text.remove(at: last)
@@ -104,6 +106,8 @@ public struct EnteredText: View {
 
                     }
                     .buttonStyle(.plain)
+                    }
+                    .transition(.slide)
                 }
                 
                 }
