@@ -69,8 +69,6 @@ public struct DigitPadStyle: ButtonStyle {
         
 	}
 }
-#else
-#error("This is a watchOS only library.")
 #endif
 public enum TextViewAlignment {
 	case trailing

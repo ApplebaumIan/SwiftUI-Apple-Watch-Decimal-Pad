@@ -235,25 +235,10 @@ struct Content_View_Previews: PreviewProvider {
 			ForEach(0 ..< 4) { item in
 				DigiTextView(placeholder: "Placeholder", text: .constant(""), presentingModal: false, alignment: .leading)
 			}
-			Button(action: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/{}/*@END_MENU_TOKEN@*/) {
-				/*@START_MENU_TOKEN@*//*@PLACEHOLDER=Content@*/Text("Button")/*@END_MENU_TOKEN@*/
-			}
 		}
 	}
 }
 
-struct TextField_Previews: PreviewProvider {
-	static var previews: some View{
-		ScrollView{
-			ForEach(0 ..< 4){ item in
-				TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
-			}
-			Button(action: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/{}/*@END_MENU_TOKEN@*/) {
-				/*@START_MENU_TOKEN@*//*@PLACEHOLDER=Content@*/Text("Button")/*@END_MENU_TOKEN@*/
-			}
-		}
-	}
-}
 #endif
 #endif
 #if os(watchOS)
