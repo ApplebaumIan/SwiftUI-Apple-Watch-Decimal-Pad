@@ -298,6 +298,4 @@ struct TextField_Previews: PreviewProvider {
 		}
 	}
 }
-#else
-#error("This is a watchOS only library.")
 #endif

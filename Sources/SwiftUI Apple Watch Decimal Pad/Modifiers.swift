@@ -106,6 +106,4 @@ struct EnteredTextKeys_Previews: PreviewProvider {
         EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal).previewDevice("Apple Watch Series 3 - 42mm")
     }
 }
-#else
-#error("This is a watchOS only library.")
 #endif
