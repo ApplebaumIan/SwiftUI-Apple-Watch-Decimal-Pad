@@ -92,8 +92,10 @@ public struct EnteredText: View {
 		}
         .toolbar(content: {
             ToolbarItem(placement: .cancellationAction){
-                Button("Done"){
+                Button {
                     presentedAsModal.toggle()
+                } label: {
+                    Label("Done", systemImage: "xmark")
                 }
             }
         })
