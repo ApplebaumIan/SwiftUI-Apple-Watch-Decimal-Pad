@@ -7,9 +7,12 @@
 
 import Foundation
 import SwiftUI
-#if os(watchOS)
-import WatchKit
+
 @available(watchOS 6.0, *)
+@available(macOS, unavailable)
+@available(macCatalyst, unavailable)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
 public struct DigitButtonModifier: ViewModifier {
 	public func body(content: Content) -> some View {
 		return content
@@ -18,14 +21,22 @@ public struct DigitButtonModifier: ViewModifier {
 	}
 }
 
-
 @available(watchOS 6.0, *)
+@available(macOS, unavailable)
+@available(macCatalyst, unavailable)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
 public extension Button {
 	func digitKeyFrame() -> some View {
 		self.modifier(DigitButtonModifier())
 	}
 }
+
 @available(watchOS 6.0, *)
+@available(macOS, unavailable)
+@available(macCatalyst, unavailable)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
 public struct DigitPadStyle: ButtonStyle {
 	public func makeBody(configuration: Configuration) -> some View {
         GeometryReader(content: { geometry in
@@ -69,9 +80,7 @@ public struct DigitPadStyle: ButtonStyle {
         
 	}
 }
-#else
-#error("This is a watchOS only library.")
-#endif
+
 public enum TextViewAlignment {
 	case trailing
 	case leading
@@ -82,8 +91,8 @@ public enum KeyboardStyle {
     case decimal
     case numbers
 }
-#if DEBUG
-#if os(watchOS)
+
+#if DEBUG && os(watchOS)
 struct EnteredTextKeys_Previews: PreviewProvider {
     static var previews: some View {
         EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers)
@@ -97,5 +106,4 @@ struct EnteredTextKeys_Previews: PreviewProvider {
         EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .decimal).previewDevice("Apple Watch Series 3 - 42mm")
     }
 }
-#endif
 #endif

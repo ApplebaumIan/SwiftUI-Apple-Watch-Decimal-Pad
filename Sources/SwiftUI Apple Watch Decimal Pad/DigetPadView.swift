@@ -8,6 +8,10 @@
 import SwiftUI
 #if os(watchOS)
 @available(watchOS 6.0, *)
+@available(macOS, unavailable)
+@available(macCatalyst, unavailable)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
 public struct DigiTextView: View {
     private var locale: Locale
     var style: KeyboardStyle
@@ -44,6 +48,10 @@ public struct DigiTextView: View {
 	}
 }
 @available(watchOS 6.0, *)
+@available(macOS, unavailable)
+@available(macCatalyst, unavailable)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
 public struct EnteredText: View {
 	@Binding var text:String
 	@Binding var presentedAsModal: Bool
@@ -84,15 +92,21 @@ public struct EnteredText: View {
 		}
         .toolbar(content: {
             ToolbarItem(placement: .cancellationAction){
-                Button("Done"){
+                Button {
                     presentedAsModal.toggle()
+                } label: {
+                    Label("Done", systemImage: "xmark")
                 }
             }
         })
         
 	}
 }
-@available(iOS 13.0, watchOS 6.0, *)
+@available(watchOS 6.0, *)
+@available(macOS, unavailable)
+@available(macCatalyst, unavailable)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
  public struct DigetPadView: View {
 	public var widthSpace: CGFloat = 1.0
 	@Binding var text:String
@@ -204,10 +218,42 @@ public struct EnteredText: View {
         .font(.title2)
 	}
 }
+
+@available(iOS 13.0, watchOS 6.0, *)
+struct TextViewStyle: ButtonStyle {
+    init(alignment: TextViewAlignment = .center) {
+        self.align = alignment
+    }
+    
+    
+    var align: TextViewAlignment
+    func makeBody(configuration: Configuration) -> some View {
+            HStack {
+                if align == .center || align == .trailing{
+                Spacer()
+                }
+                configuration.label
+                    .font(/*@START_MENU_TOKEN@*/.body/*@END_MENU_TOKEN@*/)
+                    .padding(.vertical, 11.0)
+                    .padding(.horizontal)
+                if align == .center || align == .leading{
+                Spacer()
+                }
+            }
+            .background(
+                GeometryReader { geometry in
+                    ZStack{
+                RoundedRectangle(cornerRadius: 7, style: .continuous)
+                    .fill(configuration.isPressed ? Color.gray.opacity(0.1): Color.gray.opacity(0.2))
+                    }
+            })
+            
+    }
+    
+}
 #endif
 
-#if DEBUG
-#if os(watchOS)
+#if DEBUG && os(watchOS)
 struct EnteredText_Previews: PreviewProvider {
 	static var previews: some View {
         EnteredText( text: .constant(""), presentedAsModal: .constant(true), style: .numbers)
@@ -253,40 +299,5 @@ struct TextField_Previews: PreviewProvider {
 			}
 		}
 	}
-}
-#endif
-#endif
-#if os(watchOS)
-@available(iOS 13.0, watchOS 6.0, *)
-struct TextViewStyle: ButtonStyle {
-    init(alignment: TextViewAlignment = .center) {
-		self.align = alignment
-	}
-	
-	
-	var align: TextViewAlignment
-	func makeBody(configuration: Configuration) -> some View {
-			HStack {
-				if align == .center || align == .trailing{
-				Spacer()
-				}
-				configuration.label
-					.font(/*@START_MENU_TOKEN@*/.body/*@END_MENU_TOKEN@*/)
-					.padding(.vertical, 11.0)
-					.padding(.horizontal)
-				if align == .center || align == .leading{
-				Spacer()
-				}
-			}
-			.background(
-				GeometryReader { geometry in
-					ZStack{
-				RoundedRectangle(cornerRadius: 7, style: .continuous)
-					.fill(configuration.isPressed ? Color.gray.opacity(0.1): Color.gray.opacity(0.2))
-					}
-			})
-			
-	}
-	
 }
 #endif
